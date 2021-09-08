@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.flow
 object KatRepo {
     private const val TAG = "KAT-REPO"
 
+    const val NO_DATA_FOUND = "No data found."
     private val katService by lazy { RetrofitInstance.katService }
 
     fun getKatState(
@@ -27,7 +28,7 @@ object KatRepo {
             Log.d(TAG, "getKatState: katResponse.isSuccessful")
             if (katResponse.body().isNullOrEmpty()) {
                 Log.d(TAG, "getKatState: Failure(\"No data found.\")")
-                ApiState.Failure("No data found.")
+                ApiState.Failure(NO_DATA_FOUND)
             } else {
                 Log.d(TAG, "getKatState: Success(katResponse.body()!!)")
                 ApiState.Success(katResponse.body()!!)
