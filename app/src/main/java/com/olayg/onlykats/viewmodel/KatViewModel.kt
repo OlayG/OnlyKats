@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.olayg.onlykats.model.Kat
 import com.olayg.onlykats.repo.KatRepo
 import com.olayg.onlykats.util.ApiState
+import com.olayg.onlykats.util.Order
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -23,12 +24,14 @@ class KatViewModel : ViewModel() {
             if (value > field && isNextPage) fetchKatList(limit)
             field = value
         }
-    var isNextPage = true
+    private var isNextPage = true
 
     fun fetchKatList(limit: Int) {
         this.limit = limit
         viewModelScope.launch(Dispatchers.IO) {
-            KatRepo.getKatState(limit, page).collect { katState ->
+            KatRepo.getKatState(
+                limit.toString(), page.toString(), Order.DESC.name
+            ).collect { katState ->
                 isNextPage =
                     !(katState is ApiState.Failure && katState.errorMsg == KatRepo.NO_DATA_FOUND)
                 _katState.postValue(katState)

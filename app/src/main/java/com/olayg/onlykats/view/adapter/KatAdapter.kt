@@ -27,9 +27,9 @@ class KatAdapter(
     override fun getItemCount() = katList.size
 
     fun updateList(kats: List<Kat>) {
-        katList.clear()
+        val positionStart = katList.size
         katList.addAll(kats)
-        notifyItemRangeChanged(0, katList.size)
+        notifyItemRangeInserted(positionStart, kats.size)
     }
 
     class KatViewHolder(
