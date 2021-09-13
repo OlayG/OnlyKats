@@ -12,6 +12,7 @@ object RetrofitInstance {
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
         .build()
 
     val katService: KatService by lazy { retrofit.create(KatService::class.java) }

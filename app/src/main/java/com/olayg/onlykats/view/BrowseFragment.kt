@@ -1,5 +1,4 @@
 package com.olayg.onlykats.view
-
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,7 +16,6 @@ import com.olayg.onlykats.model.Kat
 import com.olayg.onlykats.util.ApiState
 import com.olayg.onlykats.util.PageAction
 import com.olayg.onlykats.viewmodel.KatViewModel
-
 /**
  * A simple [Fragment] subclass.
  */
@@ -25,7 +23,6 @@ import com.olayg.onlykats.viewmodel.KatViewModel
 // TODO: 9/11/21 Observe breeds and react to states
 // TODO: 9/11/21 Show an AlertDialog with error message to prompt user of failures
 class BrowseFragment : Fragment() {
-
     private var _binding: FragmentBrowseBinding? = null
     private val binding get() = _binding!!
     private val katViewModel by activityViewModels<KatViewModel>()
@@ -39,20 +36,18 @@ class BrowseFragment : Fragment() {
     ) = FragmentBrowseBinding.inflate(layoutInflater, container, false).also {
         _binding = it
     }.root
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupObservers()
+        initViews()
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
     // with(receiver) is 1 of 5 scope functions
     private fun initViews() = with(binding) {
-
+        rvList.adapter = katAdapter
         rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (!recyclerView.canScrollVertically(-1) && dy < 0) {
@@ -64,7 +59,6 @@ class BrowseFragment : Fragment() {
             }
         })
     }
-
     private fun setupObservers() = with(katViewModel) {
         katState.observe(viewLifecycleOwner) { state ->
             binding.pbLoading.isVisible = state is ApiState.Loading
@@ -72,18 +66,15 @@ class BrowseFragment : Fragment() {
             if (state is ApiState.Failure) handleFailure(state.errorMsg)
         }
     }
-
     private fun loadKats(kats: List<Kat>) = with(binding.rvList) {
         Log.d(TAG, "ApiState.Success: $kats")
         if (adapter == null) adapter = katAdapter
         breedAdapter.clear()
         katAdapter.updateList(kats)
     }
-
     private fun handleFailure(errorMsg: String) {
         Log.d(TAG, "ApiState.Failure: $errorMsg")
     }
-
     companion object {
         private const val TAG = "BrowseFragment"
     }
