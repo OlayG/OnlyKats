@@ -63,6 +63,7 @@ class KatViewModel : ViewModel() {
     }
 
     private fun getBreeds(queries: Queries) {
+        queries.limit = 80
         viewModelScope.launch {
             KatRepo.getBreedState(queries).collect { breedState ->
                 isNextPage = breedState !is ApiState.EndOfPage
