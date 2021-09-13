@@ -18,6 +18,7 @@ object KatRepo {
         Log.d(TAG, "getKatState: katService.getData(limit, page, order)")
 
         val state = if (queries.endPoint != null) {
+            Log.e(TAG, "getKatState: endpoint = ${queries.endPoint}")
             val katResponse = katService.getKatImages(queries.asQueryMap)
             Log.d(TAG, "getKatState: katResponse = ${katResponse.body()}")
 
@@ -41,9 +42,32 @@ object KatRepo {
     }
 
     fun getBreedState(queries: Queries) = flow {
+
+        Log.d(TAG, "getBreedState: emit(ApiState.Loading)")
         emit(ApiState.Loading)
-        kotlinx.coroutines.delay(500)
-        emit(ApiState.Success(""))
+
+        val state = if (queries.endPoint != null) {
+            Log.e(TAG, "getKatState: endpoint = ${queries.endPoint}")
+            val breedResponse = katService.getBreeds(queries.asQueryMap)
+            Log.d(TAG, "getKatState: breedResponse = ${breedResponse.body()}")
+
+            if (breedResponse.isSuccessful) {
+                Log.d(TAG, "getKatState: breedResponse.isSuccessful")
+                if (breedResponse.body().isNullOrEmpty()) {
+                    Log.d(TAG, "getKatState: EndOfPage")
+                    ApiState.EndOfPage
+                } else {
+                    Log.d(TAG, "getKatState: Success(breedResponse.body()!!)")
+                    ApiState.Success(breedResponse.body()!!)
+                }
+            } else {
+                Log.d(TAG, "getKatState: Failure(\"Error fetching data.\")")
+                ApiState.Failure("Error fetching data.")
+            }
+        } else ApiState.Failure("Endpoint is null")
+
+        Log.d(TAG, "getKatState: emit(state)")
+        emit(state)
     }
 
     private val Queries.asQueryMap: Map<String, Any>
