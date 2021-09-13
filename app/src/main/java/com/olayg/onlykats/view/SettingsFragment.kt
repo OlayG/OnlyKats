@@ -33,6 +33,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) = FragmentSettingsBinding.inflate(inflater, container, false).also {
+        _binding = it
+        initView()
+        initObservers()
     }.root
 
     override fun onResume() {
