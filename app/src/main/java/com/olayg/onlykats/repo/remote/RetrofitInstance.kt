@@ -8,10 +8,9 @@ object RetrofitInstance {
 
     private const val BASE_URL = "https://api.thecatapi.com"
 
-    private val moshi = Moshi.Builder().build()
-
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
+        .addConverterFactory(MoshiConverterFactory.create())
         .build()
 
     val katService: KatService by lazy { retrofit.create(KatService::class.java) }
