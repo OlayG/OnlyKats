@@ -1,5 +1,6 @@
 package com.olayg.onlykats.viewmodel
 
+import androidx.datastore.preferences.protobuf.Api
 import androidx.lifecycle.*
 import com.olayg.onlykats.model.Breed
 import com.olayg.onlykats.model.Kat
@@ -11,8 +12,6 @@ import com.olayg.onlykats.util.PageAction
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-// TODO: 9/10/21 Get the breedState from repo and load into the breedState livedata
-// TODO: 9/10/21 Once you the breedState from repo make sure you update isNextPage
 class KatViewModel : ViewModel() {
 
     private val _katState = MutableLiveData<ApiState<List<Kat>>>()
@@ -40,7 +39,7 @@ class KatViewModel : ViewModel() {
     }
 
     fun fetchData(pageAction: PageAction) {
-        if (_katState.value !is ApiState.Loading) queries?.let { query ->
+        if (_katState.value !is ApiState.Loading || _breedState.value !is ApiState.Loading) queries?.let { query ->
             query.page = pageAction.update(query.page ?: -1)
             val shouldFetchPage = isNextPage || pageAction == PageAction.FIRST
             if (shouldFetchPage) {

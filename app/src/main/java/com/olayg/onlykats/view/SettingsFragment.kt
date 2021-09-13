@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textview.MaterialTextView
 import com.olayg.onlykats.R
@@ -16,9 +17,9 @@ import com.olayg.onlykats.model.request.Queries
 import com.olayg.onlykats.util.EndPoint
 import com.olayg.onlykats.viewmodel.KatViewModel
 
-// TODO: 9/11/21 Navigate back on apply click
 // TODO: 9/10/21 Use toggle method to show or hide unique views for Images (Try using Group in ConstraintLayout)
 // TODO: 9/10/21 Use toggle method to show or hide unique views for Breeds
+
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private var _binding: FragmentSettingsBinding? = null
@@ -46,9 +47,16 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     private fun initView() = with(binding) {
-        katViewModel.queries?.let { sliderLimit.value = it.limit.toFloat() }
+        katViewModel.queries?.let {
+            sliderLimit.value = it.limit.toFloat()
+        }
+
         sliderLimit.addOnChangeListener { _, _, _ -> toggleApply() }
-        btnApply.setOnClickListener { katViewModel.fetchData(getKatQueries()) }
+
+        btnApply.setOnClickListener {
+            katViewModel.fetchData(getKatQueries())
+            Navigation.findNavController(it).navigateUp()
+        }
     }
 
     private fun initObservers() = with(katViewModel) {

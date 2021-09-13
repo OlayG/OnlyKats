@@ -7,11 +7,6 @@ import com.olayg.onlykats.databinding.ItemKatBinding
 import com.olayg.onlykats.model.Kat
 import com.olayg.onlykats.util.loadWithGlide
 
-/**
- * ListView - loads all objects into memory
- * RecyclerView - Leverages the ViewHolder Pattern to optimizing scrolling and memory consumption
- * ListAdapter - Same as Recyclerview but we don't have to use the notify methods to update the adapter
- */
 class KatAdapter(
     private val katList: MutableList<Kat> = mutableListOf()
 ) : RecyclerView.Adapter<KatAdapter.KatViewHolder>() {
@@ -35,8 +30,9 @@ class KatAdapter(
     }
 
     fun clear() {
-//        val listSize = katList.size
-        notifyItemRangeRemoved(0, katList.size)
+        val listSize = katList.size
+        katList.clear()
+        notifyItemRangeRemoved(0, listSize)
     }
 
     class KatViewHolder(

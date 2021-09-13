@@ -4,8 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout/fragment_browse.xml" value="0.153125" />
-        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.153125" />
-        <entry key="app/src/main/res/layout/item_breed.xml" value="0.2953125" />
+        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_breed.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_endpoint.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/item_kat.xml" value="0.2953125" />
       </map>

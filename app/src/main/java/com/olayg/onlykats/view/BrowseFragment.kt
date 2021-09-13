@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.olayg.onlykats.R
 import com.olayg.onlykats.adapter.BreedAdapter
 import com.olayg.onlykats.adapter.KatAdapter
 import com.olayg.onlykats.databinding.FragmentBrowseBinding
@@ -19,12 +21,8 @@ import com.olayg.onlykats.util.ApiState
 import com.olayg.onlykats.util.PageAction
 import com.olayg.onlykats.viewmodel.KatViewModel
 
-/**
- * A simple [Fragment] subclass.
- */
-// TODO: 9/11/21 Navigate automatically to SettingsFragment if no data present
-// TODO: 9/11/21 Observe breeds and react to states
 // TODO: 9/11/21 Show an AlertDialog with error message to prompt user of failures
+
 class BrowseFragment : Fragment() {
 
     private var _binding: FragmentBrowseBinding? = null
@@ -43,7 +41,12 @@ class BrowseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViews()
         setupObservers()
+
+        if (katViewModel.katState.value == null && katViewModel.breedState.value == null) {
+            Navigation.findNavController(view).navigate(R.id.action_settingsFragment)
+        }
     }
 
     override fun onDestroyView() {
@@ -82,14 +85,14 @@ class BrowseFragment : Fragment() {
 
     private fun loadKats(kats: List<Kat>) = with(binding.rvList) {
         Log.d(TAG, "ApiState.Success: $kats")
-        if (adapter == null) adapter = katAdapter
+        if (adapter == null || adapter == breedAdapter) adapter = katAdapter
         breedAdapter.clear()
         katAdapter.updateList(kats)
     }
 
     private fun loadBreeds(breeds: List<Breed>) = with(binding.rvList) {
         Log.d(TAG, "ApiState.Success: $breeds")
-        if (adapter == null) adapter = breedAdapter
+        if (adapter == null || adapter == katAdapter) adapter = breedAdapter
         katAdapter.clear()
         breedAdapter.updateList(breeds)
     }

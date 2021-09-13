@@ -11,13 +11,6 @@ import com.olayg.onlykats.model.Kat
 import com.olayg.onlykats.util.loadWithGlide
 import okio.blackholeSink
 
-/**
- * ListView - loads all objects into memory
- * RecyclerView - Leverages the ViewHolder Pattern to optimizing scrolling and memory consumption
- * ListAdapter - Same as Recyclerview but we don't have to use the notify methods to update the adapter
- */
-// TODO: 9/11/21 update the clear method
-
 class BreedAdapter(
     private val breedList: MutableList<Breed> = mutableListOf()
 ) : RecyclerView.Adapter<BreedAdapter.BreedViewHolder>() {
@@ -31,7 +24,6 @@ class BreedAdapter(
     override fun getItemCount() = breedList.size
 
     fun updateList(breeds: List<Breed>) {
-        Log.e("Breed Adapter", "$breeds")
         if (breeds.lastOrNull() != breedList.lastOrNull()) {
             val positionStart = breedList.size
             breedList.addAll(breeds)
@@ -40,8 +32,9 @@ class BreedAdapter(
     }
 
     fun clear() {
-//        val listSize = breedList.size
-        notifyItemRangeRemoved(0, breedList.size)
+        val listSize = breedList.size
+        breedList.clear()
+        notifyItemRangeRemoved(0, listSize)
     }
 
     class BreedViewHolder(
@@ -49,7 +42,7 @@ class BreedAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun loadBreed(breed: Breed) = with(binding) {
-            ivBreed.loadWithGlide(breed.image?.url!!)
+            breed.image?.url?.let { ivBreed.loadWithGlide(it) }
             breedName.text = breed.name
         }
 
