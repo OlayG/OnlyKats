@@ -8,6 +8,31 @@
     tools:context="com.olayg.onlykats.view.SettingsFragment">
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/label_endpoint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:labelFor="@id/et_endpoint"
+        android:text="@string/endpoint"
+        android:textAppearance="?attr/textAppearanceHeadline5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_endpoint"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/label_endpoint">
+
+        <AutoCompleteTextView
+            android:id="@+id/et_endpoint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/label_slider_limit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,7 +40,7 @@
         android:text="@string/limit"
         android:textAppearance="?attr/textAppearanceHeadline5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/til_endpoint" />
 
     <com.google.android.material.slider.Slider
         android:id="@+id/slider_limit"

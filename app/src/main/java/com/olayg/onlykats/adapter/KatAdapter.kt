@@ -1,4 +1,4 @@
-package com.olayg.onlykats.view.adapter
+package com.olayg.onlykats.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -27,9 +27,11 @@ class KatAdapter(
     override fun getItemCount() = katList.size
 
     fun updateList(kats: List<Kat>) {
-        val positionStart = katList.size
-        katList.addAll(kats)
-        notifyItemRangeInserted(positionStart, kats.size)
+        if (kats.lastOrNull() != katList.lastOrNull()) {
+            val positionStart = katList.size
+            katList.addAll(kats)
+            notifyItemRangeInserted(positionStart, kats.size)
+        }
     }
 
     class KatViewHolder(
