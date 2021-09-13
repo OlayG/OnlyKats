@@ -31,7 +31,8 @@ class BreedAdapter(private val breedList: MutableList<Breed> = mutableListOf()
     override fun getItemCount() = breedList.size
 
     fun clear() {
-        val listSize = breedList.size
+        breedList.clear()
+        val listSize = 0
         notifyItemRangeRemoved(0, listSize)
     }
 

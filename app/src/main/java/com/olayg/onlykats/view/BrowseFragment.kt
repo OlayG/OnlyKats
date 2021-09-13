@@ -16,6 +16,7 @@ import com.olayg.onlykats.databinding.FragmentBrowseBinding
 import com.olayg.onlykats.model.Breed
 import com.olayg.onlykats.model.Kat
 import com.olayg.onlykats.util.ApiState
+import com.olayg.onlykats.util.EndPoint
 import com.olayg.onlykats.util.PageAction
 import com.olayg.onlykats.viewmodel.KatViewModel
 
@@ -68,15 +69,18 @@ class BrowseFragment : Fragment() {
     }
 
     private fun setupObservers() = with(katViewModel) {
-        katState.observe(viewLifecycleOwner) { state ->
-            binding.pbLoading.isVisible = state is ApiState.Loading
-            if (state is ApiState.Success) loadKats(state.data)
-            if (state is ApiState.Failure) handleFailure(state.errorMsg)
-        }
-        breedState.observe(viewLifecycleOwner) { state ->
-            binding.pbLoading.isVisible = state is ApiState.Loading
-            if (state is ApiState.Success) loadBreeds(state.data)
-            if (state is ApiState.Failure) handleFailure(state.errorMsg)
+        if (queries?.endPoint == EndPoint.IMAGES) {
+            katState.observe(viewLifecycleOwner) { state ->
+                binding.pbLoading.isVisible = state is ApiState.Loading
+                if (state is ApiState.Success) loadKats(state.data)
+                if (state is ApiState.Failure) handleFailure(state.errorMsg)
+            }
+        } else {
+            breedState.observe(viewLifecycleOwner) { state ->
+                binding.pbLoading.isVisible = state is ApiState.Loading
+                if (state is ApiState.Success) loadBreeds(state.data)
+                if (state is ApiState.Failure) handleFailure(state.errorMsg)
+            }
         }
     }
 
@@ -90,7 +94,7 @@ class BrowseFragment : Fragment() {
     private fun loadBreeds(breeds: List<Breed>) = with(binding.rvList) {
         Log.d(TAG, "ApiState.Success: $breeds")
         if (adapter == null) adapter = breedAdapter
-        breedAdapter.clear()
+        katAdapter.clear()
         breedAdapter.updateList(breeds)
     }
 
