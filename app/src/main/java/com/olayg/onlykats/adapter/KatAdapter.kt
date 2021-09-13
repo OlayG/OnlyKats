@@ -42,7 +42,6 @@ class KatAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun loadKat(kat: Kat) = with(binding) {
-            Log.e("update list", "recieve ${kat.url}")
             ivKat.loadWithGlide(kat.url)
         }
 
