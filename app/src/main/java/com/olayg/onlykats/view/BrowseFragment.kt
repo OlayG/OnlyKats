@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.olayg.onlykats.R
 import com.olayg.onlykats.adapter.BreedAdapter
 import com.olayg.onlykats.adapter.KatAdapter
 import com.olayg.onlykats.databinding.FragmentBrowseBinding
@@ -24,7 +24,7 @@ import com.olayg.onlykats.viewmodel.KatViewModel
 // TODO: 9/11/21 Navigate automatically to SettingsFragment if no data present
 // TODO: 9/11/21 Observe breeds and react to states
 // TODO: 9/11/21 Show an AlertDialog with error message to prompt user of failures
-class BrowseFragment : Fragment() {
+class BrowseFragment : Fragment(R.layout.fragment_browse) {
 
     private var _binding: FragmentBrowseBinding? = null
     private val binding get() = _binding!!
@@ -37,12 +37,15 @@ class BrowseFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) = FragmentBrowseBinding.inflate(layoutInflater, container, false).also {
+
         _binding = it
     }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setupObservers()
+        initViews()
     }
 
     override fun onDestroyView() {

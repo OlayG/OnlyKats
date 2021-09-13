@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.annotation.NonNull
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -32,8 +33,14 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = FragmentSettingsBinding.inflate(inflater, container, false).also {
-    }.root
+    ): ViewGroup {
+        _binding = FragmentSettingsBinding.inflate(inflater, container, false)
+
+        initView()
+        initObservers()
+
+        return binding.root
+    }
 
     override fun onResume() {
         super.onResume()
@@ -48,7 +55,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private fun initView() = with(binding) {
         katViewModel.queries?.let { sliderLimit.value = it.limit.toFloat() }
         sliderLimit.addOnChangeListener { _, _, _ -> toggleApply() }
-        btnApply.setOnClickListener { katViewModel.fetchData(getKatQueries()) }
+        btnApply.setOnClickListener { katViewModel.fetchData(getKatQueries())
+        }
     }
 
     private fun initObservers() = with(katViewModel) {
@@ -77,7 +85,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
     }
 
-    private fun toggleImagesView(show: Boolean) = with(binding) {}
+    private fun toggleImagesView(show: Boolean) = with(binding) {
+
+    }
 
     private fun toggleBreedsView(show: Boolean) = with(binding) {}
 

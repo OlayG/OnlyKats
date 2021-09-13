@@ -43,7 +43,7 @@ object KatRepo {
     fun getBreedState(queries: Queries) = flow {
         emit(ApiState.Loading)
         kotlinx.coroutines.delay(500)
-        emit(ApiState.Success(""))
+        emit(ApiState.Success("$queries"))
     }
 
     private val Queries.asQueryMap: Map<String, Any>
