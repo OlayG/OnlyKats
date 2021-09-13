@@ -7,6 +7,7 @@ import com.olayg.onlykats.repo.KatRepo
 import com.olayg.onlykats.util.ApiState
 import com.olayg.onlykats.util.EndPoint
 import com.olayg.onlykats.util.PageAction
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -53,7 +54,7 @@ class KatViewModel : ViewModel() {
     }
 
     private fun getImages(queries: Queries) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             KatRepo.getKatState(queries).collect { katState ->
                 isNextPage = katState !is ApiState.EndOfPage
                 _katState.postValue(katState)
@@ -62,7 +63,7 @@ class KatViewModel : ViewModel() {
     }
 
     private fun getBreeds(queries: Queries) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             KatRepo.getBreedState(queries).collect {}
         }
     }

@@ -1,5 +1,6 @@
 package com.olayg.onlykats.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -21,12 +22,14 @@ class KatAdapter(
     ) = KatViewHolder.getInstance(parent)
 
     override fun onBindViewHolder(holder: KatViewHolder, position: Int) {
+
         holder.loadKat(katList[position])
     }
 
     override fun getItemCount() = katList.size
 
     fun updateList(kats: List<Kat>) {
+
         if (kats.lastOrNull() != katList.lastOrNull()) {
             val positionStart = katList.size
             katList.addAll(kats)
@@ -39,6 +42,7 @@ class KatAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun loadKat(kat: Kat) = with(binding) {
+            Log.e("update list", "recieve ${kat.url}")
             ivKat.loadWithGlide(kat.url)
         }
 

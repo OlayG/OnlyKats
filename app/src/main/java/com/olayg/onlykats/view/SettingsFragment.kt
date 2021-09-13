@@ -24,7 +24,7 @@ import com.olayg.onlykats.viewmodel.KatViewModel
 // TODO: 9/10/21 Use toggle method to show or hide unique views for Breeds
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
-    private var _binding: FragmentSettingsBinding? = null
+    private lateinit var _binding: FragmentSettingsBinding
     private val binding get() = _binding!!
     private val katViewModel by activityViewModels<KatViewModel>()
 
@@ -33,17 +33,25 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) = FragmentSettingsBinding.inflate(inflater, container, false).also {
+        _binding = it
     }.root
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentSettingsBinding.bind(view)
+        initObservers()
+        initView()
+    }
 
     override fun onResume() {
         super.onResume()
         initEndpointDropdown()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        _binding = null!!
+//    }
 
     private fun initView() = with(binding) {
         katViewModel.queries?.let { sliderLimit.value = it.limit.toFloat() }

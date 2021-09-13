@@ -32,6 +32,7 @@ class BrowseFragment : Fragment() {
     private val katAdapter by lazy { KatAdapter() }
     private val breedAdapter by lazy { BreedAdapter() }
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,6 +44,7 @@ class BrowseFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupObservers()
+        initViews()
     }
 
     override fun onDestroyView() {
@@ -52,7 +54,7 @@ class BrowseFragment : Fragment() {
 
     // with(receiver) is 1 of 5 scope functions
     private fun initViews() = with(binding) {
-
+        rvList.adapter = katAdapter
         rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (!recyclerView.canScrollVertically(-1) && dy < 0) {
