@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.BrowseFragment">
+    tools:context=".view.BrowseFragment"
+    android:layout_margin="8dp">
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -12,8 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="2"
-        tools:listitem="@layout/item_kat" />
+        app:spanCount="2" />
+<!--        tools:listitem="@layout/item_kat" -->
+
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/pb_loading"

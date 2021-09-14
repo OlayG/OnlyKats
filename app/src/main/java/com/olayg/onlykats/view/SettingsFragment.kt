@@ -14,6 +14,7 @@ import com.olayg.onlykats.R
 import com.olayg.onlykats.databinding.FragmentSettingsBinding
 import com.olayg.onlykats.model.request.Queries
 import com.olayg.onlykats.util.EndPoint
+import com.olayg.onlykats.util.Order
 import com.olayg.onlykats.viewmodel.KatViewModel
 
 /**
@@ -26,6 +27,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
+
+//    private lateinit var binding: FragmentSettingsBinding
+
     private val katViewModel by activityViewModels<KatViewModel>()
 
     override fun onCreateView(
@@ -33,6 +37,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) = FragmentSettingsBinding.inflate(inflater, container, false).also {
+        _binding = it
+        initView()
+        initObservers()
     }.root
 
     override fun onResume() {

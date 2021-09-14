@@ -1,9 +1,11 @@
 package com.olayg.onlykats.repo.remote
 
+import com.olayg.onlykats.model.Breed
 import com.olayg.onlykats.model.Kat
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.Query
 import retrofit2.http.QueryMap
 
 // TODO: 9/11/21 update getBreeds
@@ -16,6 +18,7 @@ interface KatService {
     ): Response<List<Kat>>
 
     @GET("v1/breeds")
-    suspend fun getBreeds(): Response<String>
-
+    suspend fun getBreeds(
+        @QueryMap options: Map<String, @JvmSuppressWildcards Any>
+    ): Response<List<Breed>>
 }
