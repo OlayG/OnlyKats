@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.olayg.onlykats.adapter.BreedAdapter
 import com.olayg.onlykats.adapter.KatAdapter
 import com.olayg.onlykats.databinding.FragmentBrowseBinding
+import com.olayg.onlykats.model.Breed
 import com.olayg.onlykats.model.Kat
 import com.olayg.onlykats.util.ApiState
 import com.olayg.onlykats.util.PageAction
@@ -43,7 +44,10 @@ class BrowseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (katViewModel.queries == null)
+            findNavController().navigate(BrowseFragmentDirections.actionSettingsFragment())
         setupObservers()
+        setupObservers2()
         initViews()
     }
 
@@ -54,7 +58,7 @@ class BrowseFragment : Fragment() {
 
     // with(receiver) is 1 of 5 scope functions
     private fun initViews() = with(binding) {
-        rvList.adapter = katAdapter
+
         rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (!recyclerView.canScrollVertically(-1) && dy < 0) {
@@ -67,6 +71,7 @@ class BrowseFragment : Fragment() {
         })
     }
 
+
     private fun setupObservers() = with(katViewModel) {
         katState.observe(viewLifecycleOwner) { state ->
             binding.pbLoading.isVisible = state is ApiState.Loading
@@ -75,11 +80,29 @@ class BrowseFragment : Fragment() {
         }
     }
 
+    private fun setupObservers2() = with(katViewModel)
+    {
+        breedState.observe(viewLifecycleOwner) { state ->
+            binding.pbLoading.isVisible = state is ApiState.Loading
+            if (state is ApiState.Success) loadBreeds(state.data)
+            if (state is ApiState.Failure) handleFailure(state.errorMsg)
+        }
+    }
+
     private fun loadKats(kats: List<Kat>) = with(binding.rvList) {
         Log.d(TAG, "ApiState.Success: $kats")
         if (adapter == null) adapter = katAdapter
+        if (katViewModel.currentPagAction == PageAction.FIRST) katAdapter.clear()
         breedAdapter.clear()
         katAdapter.updateList(kats)
+    }
+
+    private fun loadBreeds(breeds: List<Breed>) = with(binding.rvList)
+    {
+        Log.e("breeds load", "we are in LoadBreds")
+        if (adapter == null) adapter = breedAdapter
+        katAdapter.clear()
+        breedAdapter.updateList(breeds)
     }
 
     private fun handleFailure(errorMsg: String) {

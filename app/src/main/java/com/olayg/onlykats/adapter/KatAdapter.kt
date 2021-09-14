@@ -1,6 +1,5 @@
 package com.olayg.onlykats.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -35,6 +34,12 @@ class KatAdapter(
             katList.addAll(kats)
             notifyItemRangeInserted(positionStart, kats.size)
         }
+    }
+
+    fun clear() {
+        val listSize = katList.size
+        katList.clear()
+        notifyItemRangeRemoved(0, listSize)
     }
 
     class KatViewHolder(

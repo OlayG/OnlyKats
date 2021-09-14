@@ -54,6 +54,7 @@ data class Breed(
     @Json(name = "suppressed_tail")
     val suppressedTail: Int?,
     val temperament: String?,
+    val url: String?,
     @Json(name = "vcahospitals_url")
     val vcaHospitalsUrl: String?,
     @Json(name = "vetstreet_url")

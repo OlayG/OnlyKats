@@ -16,6 +16,5 @@ object RetrofitInstance {
         .build()
 
     val katService: KatService by lazy { retrofit.create(KatService::class.java) }
-
 }
 

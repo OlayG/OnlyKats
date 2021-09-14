@@ -1,6 +1,7 @@
 package com.olayg.onlykats.viewmodel
 
 import androidx.lifecycle.*
+import com.olayg.onlykats.model.Breed
 import com.olayg.onlykats.model.Kat
 import com.olayg.onlykats.model.request.Queries
 import com.olayg.onlykats.repo.KatRepo
@@ -19,8 +20,9 @@ class KatViewModel : ViewModel() {
     val katState: LiveData<ApiState<List<Kat>>>
         get() = _katState
 
-    private val _breedState = MutableLiveData<ApiState<String>>()
-    val breedState: LiveData<ApiState<String>> get() = _breedState
+    private val _breedState = MutableLiveData<ApiState<List<Breed>>>()
+    val breedState: LiveData<ApiState<List<Breed>>>
+        get() = _breedState
 
     // This lets us combine multiple livedata's into 1, I am using this to update settings anytime
     // the states change
@@ -29,10 +31,12 @@ class KatViewModel : ViewModel() {
         addSource(_breedState) { value = Unit }
     }
 
+
     var queries: Queries? = null
 
     private var isNextPage = false
     private var currentPage = -1
+    var currentPagAction = PageAction.FIRST
 
     fun fetchData(queries: Queries) {
         this.queries = queries
@@ -41,6 +45,7 @@ class KatViewModel : ViewModel() {
 
     fun fetchData(pageAction: PageAction) {
         if (_katState.value !is ApiState.Loading) queries?.let { query ->
+            currentPagAction = pageAction
             query.page = pageAction.update(query.page ?: -1)
             val shouldFetchPage = isNextPage || pageAction == PageAction.FIRST
             if (shouldFetchPage) {
@@ -64,7 +69,10 @@ class KatViewModel : ViewModel() {
 
     private fun getBreeds(queries: Queries) {
         viewModelScope.launch(Dispatchers.IO) {
-            KatRepo.getBreedState(queries).collect {}
+            KatRepo.getBreedState(queries).collect { breedState ->
+                isNextPage = breedState !is ApiState.EndOfPage
+                _breedState.postValue(breedState)
+            }
         }
     }
 
@@ -73,5 +81,4 @@ class KatViewModel : ViewModel() {
         PageAction.NEXT -> page.inc()
         PageAction.PREV -> if (page > 0) page.dec() else page
     }
-
 }

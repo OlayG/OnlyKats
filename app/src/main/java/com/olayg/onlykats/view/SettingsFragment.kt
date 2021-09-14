@@ -48,15 +48,15 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         initEndpointDropdown()
     }
 
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        _binding = null!!
-//    }
 
     private fun initView() = with(binding) {
+            toggleApply()
         katViewModel.queries?.let { sliderLimit.value = it.limit.toFloat() }
         sliderLimit.addOnChangeListener { _, _, _ -> toggleApply() }
-        btnApply.setOnClickListener { katViewModel.fetchData(getKatQueries()) }
+        btnApply.setOnClickListener {
+            katViewModel.fetchData(getKatQueries())
+            findNavController().navigateUp()
+        }
     }
 
     private fun initObservers() = with(katViewModel) {
