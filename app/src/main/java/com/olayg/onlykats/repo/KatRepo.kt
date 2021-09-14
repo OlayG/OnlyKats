@@ -31,7 +31,7 @@ object KatRepo {
                     ApiState.Success(katResponse.body()!!)
                 }
             } else {
-                Log.d(TAG, "getKatState: Failure(\"Error fetching data.\")")
+                Log.d(TAG, "getKatState: Failure(Error fetching data.)")
                 ApiState.Failure("Error fetching data.")
             }
         } else ApiState.Failure("Endpoint is null")
@@ -42,13 +42,34 @@ object KatRepo {
 
     fun getBreedState(queries: Queries) = flow {
         emit(ApiState.Loading)
-        kotlinx.coroutines.delay(500)
-        emit(ApiState.Success(""))
+
+        val state = if (queries.endPoint != null) {
+            val breedResponse = katService.getBreeds(queries.asQueryMap)
+            Log.d(TAG, "getKatState: katResponse = ${breedResponse.body()}")
+
+            if (breedResponse.isSuccessful) {
+                Log.d(TAG, "getBreedState: katResponse.isSuccessful")
+                if (breedResponse.body().isNullOrEmpty()) {
+                    Log.d(TAG, "getBreedState: EndOfPage")
+                    ApiState.EndOfPage
+                } else {
+                    Log.d(TAG, "getBreedState: Success(katResponse.body()!!)")
+                    ApiState.Success(breedResponse.body()!!)
+                }
+            } else {
+                Log.d(TAG, "getBreedState: Failure(Error fetching data.)")
+                ApiState.Failure("Error fetching data.")
+            }
+        } else ApiState.Failure("Endpoint is null")
+
+        Log.d(TAG, "getBreedState: emit(state)")
+        emit(state)
     }
 
     private val Queries.asQueryMap: Map<String, Any>
         get() = listOfNotNull(
             "limit" to limit,
-            page?.let { "page" to it }
+            page?.let { "page" to it },
+            order.let { "order" to it }
         ).toMap()
 }

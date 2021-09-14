@@ -1,5 +1,7 @@
 package com.olayg.onlykats.view
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,8 +13,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.olayg.onlykats.adapter.BreedAdapter
+//import com.olayg.onlykats.adapter.BreedAdapter
 import com.olayg.onlykats.adapter.KatAdapter
 import com.olayg.onlykats.databinding.FragmentBrowseBinding
+import com.olayg.onlykats.model.Breed
 import com.olayg.onlykats.model.Kat
 import com.olayg.onlykats.util.ApiState
 import com.olayg.onlykats.util.PageAction
@@ -38,6 +42,7 @@ class BrowseFragment : Fragment() {
         savedInstanceState: Bundle?
     ) = FragmentBrowseBinding.inflate(layoutInflater, container, false).also {
         _binding = it
+        initViews()
     }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -71,16 +76,31 @@ class BrowseFragment : Fragment() {
             if (state is ApiState.Success) loadKats(state.data)
             if (state is ApiState.Failure) handleFailure(state.errorMsg)
         }
+        breedState.observe(viewLifecycleOwner) { state ->
+            binding.pbLoading.isVisible = state is ApiState.Loading
+            if (state is ApiState.Success) loadBreeds(state.data)
+            if (state is ApiState.Failure) handleFailure(state.errorMsg)
+        }
     }
 
     private fun loadKats(kats: List<Kat>) = with(binding.rvList) {
         Log.d(TAG, "ApiState.Success: $kats")
         if (adapter == null) adapter = katAdapter
-        breedAdapter.clear()
+        katAdapter.clear()
         katAdapter.updateList(kats)
     }
 
+    private fun loadBreeds(breeds: List<Breed>) = with(binding.rvList) {
+        Log.d(TAG, "ApiState.Success: $breeds")
+        if (adapter == null) adapter = breedAdapter
+        breedAdapter.clear()
+        breedAdapter.updateList(breeds)
+    }
+
     private fun handleFailure(errorMsg: String) {
+//        val dialogBuilder = AlertDialog.Builder(requireActivity())
+//        dialogBuilder.setMessage("ApiState.Failure: $errorMsg")
+//        dialogBuilder.show()
         Log.d(TAG, "ApiState.Failure: $errorMsg")
     }
 
