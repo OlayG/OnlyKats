@@ -45,13 +45,13 @@ object KatRepo {
 //        kotlinx.coroutines.delay(500)
 //        emit(ApiState.Success(""))
         val state = if (queries.endPoint != null) {
-            val breedResponse = katService.getBreeds()
-            Log.d(TAG, "getBreedState: katResponse = ${breedResponse.body()}")
+            val breedResponse = katService.getBreeds(queries.asQueryMap)
+            Log.d(TAG, "getBreedState: breedResponse = ${breedResponse.body()}")
 
             if (breedResponse.isSuccessful) {
-                Log.d(TAG, "getKatState: breedResponse.isSuccessful")
+                Log.d(TAG, "getBreedState: breedResponse.isSuccessful")
                 if (breedResponse.body().isNullOrEmpty()) {
-                    Log.d(TAG, "getKatState: EndOfPage")
+                    Log.d(TAG, "getBreedState: EndOfPage")
                     ApiState.EndOfPage
                 } else {
                     Log.d(TAG, "getBreedState: Success(breedResponse.body()!!)")

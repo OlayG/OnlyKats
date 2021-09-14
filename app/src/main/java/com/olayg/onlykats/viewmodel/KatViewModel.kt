@@ -1,7 +1,9 @@
 package com.olayg.onlykats.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.olayg.onlykats.model.Kat
+import com.olayg.onlykats.model.Breed
 import com.olayg.onlykats.model.request.Queries
 import com.olayg.onlykats.repo.KatRepo
 import com.olayg.onlykats.util.ApiState
@@ -18,8 +20,8 @@ class KatViewModel : ViewModel() {
     val katState: LiveData<ApiState<List<Kat>>>
         get() = _katState
 
-    private val _breedState = MutableLiveData<ApiState<String>>()
-    val breedState: LiveData<ApiState<String>> get() = _breedState
+    private val _breedState = MutableLiveData<ApiState<List<Breed>>>()
+    val breedState: LiveData<ApiState<List<Breed>>> get() = _breedState
 
     // This lets us combine multiple livedata's into 1, I am using this to update settings anytime
     // the states change
@@ -66,7 +68,10 @@ class KatViewModel : ViewModel() {
 
     private fun getBreeds(queries: Queries) {
         viewModelScope.launch {
-            KatRepo.getBreedState(queries).collect {}
+            KatRepo.getBreedState(queries).collect { breedState ->
+                isNextPage = breedState !is ApiState.EndOfPage
+                _breedState.postValue(breedState)
+            }
         }
     }
 

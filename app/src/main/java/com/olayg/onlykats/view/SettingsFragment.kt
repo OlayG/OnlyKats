@@ -2,6 +2,7 @@ package com.olayg.onlykats.view
 
 import android.os.Bundle
 import android.text.style.UpdateAppearance
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -64,6 +65,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         katViewModel.queries?.let { sliderLimit.value = it.limit.toFloat() }
         sliderLimit.addOnChangeListener { _, _, _ -> toggleApply() }
         btnApply.setOnClickListener {
+            Log.e("TAG-- clicked", "initView: clicked", )
             katViewModel.fetchData(getKatQueries())
             findNavController().navigateUp()
         }

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.olayg.onlykats.adapter.BreedAdapter
 import com.olayg.onlykats.adapter.KatAdapter
 import com.olayg.onlykats.databinding.FragmentBrowseBinding
+import com.olayg.onlykats.model.Breed
 import com.olayg.onlykats.model.Kat
 import com.olayg.onlykats.util.ApiState
 import com.olayg.onlykats.util.PageAction
@@ -52,7 +53,6 @@ class BrowseFragment : Fragment() {
     }
     // with(receiver) is 1 of 5 scope functions
     private fun initViews() = with(binding) {
-        rvList.adapter = katAdapter
         rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (!recyclerView.canScrollVertically(-1) && dy < 0) {
@@ -70,6 +70,14 @@ class BrowseFragment : Fragment() {
             if (state is ApiState.Success) loadKats(state.data)
             if (state is ApiState.Failure) handleFailure(state.errorMsg)
         }
+
+        //added this
+        breedState.observe(viewLifecycleOwner) { state ->
+            binding.pbLoading.isVisible = state is ApiState.Loading
+            if (state is ApiState.Success) loadBreeds(state.data)
+            if (state is ApiState.Failure) handleFailure(state.errorMsg)
+        }
+
     }
 
     private fun loadKats(kats: List<Kat>) = with(binding.rvList) {
@@ -79,6 +87,17 @@ class BrowseFragment : Fragment() {
         breedAdapter.clear()
         katAdapter.updateList(kats)
     }
+
+    //added this
+
+    private fun loadBreeds(breeds: List<Breed>) = with(binding.rvList) {
+        Log.d(TAG, "ApiState.Success: $breeds")
+        if (adapter == null) adapter = breedAdapter
+        if(katViewModel.currentPageAction == PageAction.FIRST) breedAdapter.clear()
+        katAdapter.clear()
+        breedAdapter.updateList(breeds)
+    }
+
     private fun handleFailure(errorMsg: String) {
         Log.d(TAG, "ApiState.Failure: $errorMsg")
     }
