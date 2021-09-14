@@ -1,6 +1,7 @@
 package com.olayg.onlykats.view
 
 import android.os.Bundle
+import android.text.style.UpdateAppearance
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textview.MaterialTextView
 import com.olayg.onlykats.R
+import com.olayg.onlykats.adapter.KatAdapter
 import com.olayg.onlykats.databinding.FragmentSettingsBinding
 import com.olayg.onlykats.model.request.Queries
 import com.olayg.onlykats.util.EndPoint
@@ -25,14 +27,20 @@ import com.olayg.onlykats.viewmodel.KatViewModel
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private var _binding: FragmentSettingsBinding? = null
+    //underscore defines backend field
+    //this is getting its value from the binding above so ^ needs to be intitialized -- add _binding = it
     private val binding get() = _binding!!
     private val katViewModel by activityViewModels<KatViewModel>()
 
+    //initialize binding and inflate the view
+    //also is i want to do something with the stuff on the left
+    //you can put more work RELATED to binding in the also but if you wanted to add other methods to onCreate() restructure it
+    //this onCreateView() is a LAMBDA function
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = FragmentSettingsBinding.inflate(inflater, container, false).also {
+    ) = FragmentSettingsBinding.inflate(layoutInflater, container, false).also {
         _binding = it
     }.root
 
@@ -55,7 +63,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private fun initView() = with(binding) {
         katViewModel.queries?.let { sliderLimit.value = it.limit.toFloat() }
         sliderLimit.addOnChangeListener { _, _, _ -> toggleApply() }
-        btnApply.setOnClickListener { katViewModel.fetchData(getKatQueries()) }
+        btnApply.setOnClickListener {
+            katViewModel.fetchData(getKatQueries())
+            findNavController().navigateUp()
+        }
     }
 
     private fun initObservers() = with(katViewModel) {
@@ -92,8 +103,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         binding.btnApply.isVisible = validateQuery()
     }
 
+
     private fun validateQuery(): Boolean {
         val newQuery = getKatQueries()
+        //return "this" from the let scope
         return katViewModel.queries?.let {
             return@let it.endPoint != newQuery.endPoint || (it.limit != newQuery.limit && newQuery.limit >= 10)
         } ?: (newQuery.endPoint != null && newQuery.limit >= 10)

@@ -15,6 +15,7 @@
         app:spanCount="2"
         tools:listitem="@layout/item_kat" />
 
+
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/pb_loading"
         android:layout_width="wrap_content"
@@ -22,18 +23,5 @@
         android:layout_centerInParent="true"
         android:indeterminate="true" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/details"
-        android:visibility="gone" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_settings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/settings"
-        android:visibility="gone" />
 
 </RelativeLayout>

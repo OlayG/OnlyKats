@@ -33,12 +33,15 @@ class KatViewModel : ViewModel() {
     private var isNextPage = false
     private var currentPage = -1
 
+    var currentPageAction = PageAction.FIRST
+
     fun fetchData(queries: Queries) {
         this.queries = queries
         fetchData(PageAction.FIRST)
     }
 
     fun fetchData(pageAction: PageAction) {
+        currentPageAction = pageAction
         if (_katState.value !is ApiState.Loading) queries?.let { query ->
             query.page = pageAction.update(query.page ?: -1)
             val shouldFetchPage = isNextPage || pageAction == PageAction.FIRST
