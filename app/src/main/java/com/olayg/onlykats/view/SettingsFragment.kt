@@ -34,11 +34,15 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         _binding = it
     }.root
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
+        initObservers()
+    }
+
     override fun onResume() {
         super.onResume()
         initEndpointDropdown()
-        initView()
-        initObservers()
     }
 
     override fun onDestroyView() {
@@ -55,7 +59,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
         btnApply.setOnClickListener {
             katViewModel.fetchData(getKatQueries())
-            Navigation.findNavController(it).navigateUp()
+            findNavController().navigateUp()
         }
     }
 
