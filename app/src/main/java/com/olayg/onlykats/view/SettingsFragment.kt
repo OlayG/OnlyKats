@@ -22,7 +22,7 @@ import com.olayg.onlykats.viewmodel.KatViewModel
 // TODO: 9/11/21 Navigate back on apply click
 // TODO: 9/10/21 Use toggle method to show or hide unique views for Images (Try using Group in ConstraintLayout)
 // TODO: 9/10/21 Use toggle method to show or hide unique views for Breeds
-class SettingsFragment : Fragment(R.layout.fragment_settings) {
+class SettingsFragment : Fragment() {
 
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
@@ -33,7 +33,14 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) = FragmentSettingsBinding.inflate(inflater, container, false).also {
+        _binding = it
     }.root
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
+        initObservers()
+    }
 
     override fun onResume() {
         super.onResume()
@@ -48,7 +55,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private fun initView() = with(binding) {
         katViewModel.queries?.let { sliderLimit.value = it.limit.toFloat() }
         sliderLimit.addOnChangeListener { _, _, _ -> toggleApply() }
-        btnApply.setOnClickListener { katViewModel.fetchData(getKatQueries()) }
+        btnApply.setOnClickListener {
+            katViewModel.fetchData(getKatQueries())
+            findNavController().navigateUp()
+        }
     }
 
     private fun initObservers() = with(katViewModel) {

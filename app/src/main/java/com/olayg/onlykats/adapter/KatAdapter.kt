@@ -34,6 +34,12 @@ class KatAdapter(
         }
     }
 
+    fun clear() {
+        val listSize = katList.size
+        katList.clear()
+        notifyItemRangeRemoved(0, listSize)
+    }
+
     class KatViewHolder(
         private val binding: ItemKatBinding
     ) : RecyclerView.ViewHolder(binding.root) {

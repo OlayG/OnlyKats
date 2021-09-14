@@ -42,7 +42,10 @@ class BrowseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (katViewModel.queries == null)
+            findNavController().navigate(BrowseFragmentDirections.actionSettingsFragment())
         setupObservers()
+        initViews()
     }
 
     override fun onDestroyView() {
@@ -76,6 +79,7 @@ class BrowseFragment : Fragment() {
     private fun loadKats(kats: List<Kat>) = with(binding.rvList) {
         Log.d(TAG, "ApiState.Success: $kats")
         if (adapter == null) adapter = katAdapter
+        if (katViewModel.currentPageAction == PageAction.FIRST) katAdapter.clear()
         breedAdapter.clear()
         katAdapter.updateList(kats)
     }
