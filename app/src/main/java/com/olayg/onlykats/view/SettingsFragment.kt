@@ -1,6 +1,7 @@
 package com.olayg.onlykats.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,24 +23,27 @@ import com.olayg.onlykats.viewmodel.KatViewModel
 // TODO: 9/11/21 Navigate back on apply click
 // TODO: 9/10/21 Use toggle method to show or hide unique views for Images (Try using Group in ConstraintLayout)
 // TODO: 9/10/21 Use toggle method to show or hide unique views for Breeds
-class SettingsFragment : Fragment() {
+class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
-    private var _binding: FragmentSettingsBinding? = null
-    private val binding get() = _binding!!
+    //    private var _binding: FragmentSettingsBinding? = null
+//    private val binding get() = _binding!!
+    private lateinit var binding: FragmentSettingsBinding
     private val katViewModel by activityViewModels<KatViewModel>()
+    private  val TAG = "SettingsFragment"
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ) = FragmentSettingsBinding.inflate(inflater, container, false).also {
-        _binding = it
-    }.root
-
+    //    override fun onCreateView(
+//        inflater: LayoutInflater,
+//        container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ) = FragmentSettingsBinding.inflate(inflater, container, false).also {
+//    }.root
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding = FragmentSettingsBinding.bind(view)
+
+        Log.i(TAG, "onViewCreated: ")
         initView()
-        initObservers()
+
     }
 
     override fun onResume() {
@@ -47,18 +51,15 @@ class SettingsFragment : Fragment() {
         initEndpointDropdown()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        binding = null
+//    }
 
     private fun initView() = with(binding) {
         katViewModel.queries?.let { sliderLimit.value = it.limit.toFloat() }
         sliderLimit.addOnChangeListener { _, _, _ -> toggleApply() }
-        btnApply.setOnClickListener {
-            katViewModel.fetchData(getKatQueries())
-            findNavController().navigateUp()
-        }
+        btnApply.setOnClickListener { katViewModel.fetchData(getKatQueries()) }
     }
 
     private fun initObservers() = with(katViewModel) {
@@ -106,6 +107,7 @@ class SettingsFragment : Fragment() {
         endPoint = binding.etEndpoint.text.toString().run {
             if (isNotBlank()) EndPoint.valueOf(this) else null
         },
+
         limit = binding.sliderLimit.value.toInt(),
         page = katViewModel.queries?.page
     )
