@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/purple_200"
+    tools:context=".view.DetailsFragment">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_kat_detail"
+        android:layout_width="250dp"
+        android:layout_height="150dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@id/lifeSpan_kat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/breed_name_kat" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/breed_name_kat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+        app:layout_constraintBottom_toTopOf="@+id/iv_kat_detail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/lifeSpan_kat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/energyLevel_kat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_kat_detail" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/energyLevel_kat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/sheddingLevel_kat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lifeSpan_kat" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/sheddingLevel_kat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/socialNeeds_kat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/energyLevel_kat" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/socialNeeds_kat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/vetStreetUrl_kat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sheddingLevel_kat" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/vetStreetUrl_kat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autoLink="web"
+        app:layout_constraintBottom_toTopOf="@id/wikipediaUrl_kat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/socialNeeds_kat" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/wikipediaUrl_kat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autoLink="web"
+        app:layout_constraintBottom_toTopOf="@id/btn_back_to_browse"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vetStreetUrl_kat" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_back_to_browse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#9069D5"
+        android:text="@string/back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/wikipediaUrl_kat" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

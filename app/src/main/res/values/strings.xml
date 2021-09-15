@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">OnlyKats</string>
+    <string name="settings">Settings</string>
+    <string name="details">Details</string>
+    <string name="browse">Browse</string>
+    <string name="limit">Limit</string>
+    <string name="apply">Apply</string>
+    <string name="endpoint">Endpoint</string>
+    <string name="kat_name_label">Kat name:</string>
+    <string name="kat_lifespan_label">Years</string>
+    <string name="home_title">Only Kats</string>
+    <string name="home">home</string>
+    <string name="back">Back</string>
 </resources>
