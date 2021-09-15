@@ -31,7 +31,13 @@ class BrowseFragment : Fragment() {
     private val binding get() = _binding!!
     private val katViewModel by activityViewModels<KatViewModel>()
     private val katAdapter by lazy { KatAdapter() }
-    private val breedAdapter by lazy { BreedAdapter() }
+    private val listener: OnItemClickListener? = null
+
+    private val breedAdapter by lazy {
+        BreedAdapter() { breed ->
+            Log.i(TAG, "clicked: ${breed}")
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,10 +50,12 @@ class BrowseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(katViewModel.queries == null){
+        if (katViewModel.queries == null) {
             //requires safe args from navigation dependencies for directions
             findNavController().navigate(BrowseFragmentDirections.actionSettingsFragment())
         }
+
+        //   breedAdapter = ContentAdapter(breeds) { breed -> Log.i(TAG, "onViewCreated: ")}
         setupObservers()
         initViews()
     }
@@ -87,11 +95,10 @@ class BrowseFragment : Fragment() {
     }
 
 
-
     private fun loadKats(kats: List<Kat>) = with(binding.rvList) {
         Log.d(TAG, "ApiState.Success: $kats")
         if (adapter == null) adapter = katAdapter
-        if(katViewModel.currentPageAction == PageAction.FIRST) katAdapter.clear()
+        if (katViewModel.currentPageAction == PageAction.FIRST) katAdapter.clear()
         breedAdapter.clear()
         katAdapter.updateList(kats)
     }
@@ -99,7 +106,7 @@ class BrowseFragment : Fragment() {
     private fun loadBreeds(breeds: List<Breed>) = with(binding.rvList) {
         Log.d(TAG, "ApiState.Success: $breeds")
         if (adapter == null) adapter = breedAdapter
-        if(katViewModel.currentPageAction == PageAction.FIRST) breedAdapter.clear()
+        if (katViewModel.currentPageAction == PageAction.FIRST) breedAdapter.clear()
         katAdapter.clear()
         breedAdapter.updateList(breeds)
     }

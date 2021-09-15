@@ -1,5 +1,6 @@
 package com.olayg.onlykats.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -18,12 +19,15 @@ import com.olayg.onlykats.util.loadWithGlide
 
 
 class BreedAdapter(
-    private val breedList: MutableList<Breed> = mutableListOf()
+    private val breedList: MutableList<Breed> = mutableListOf(),
+    private val listener: (Breed) -> Unit
 ) : RecyclerView.Adapter<BreedAdapter.BreedViewHolder>() {
+
 
 //    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 //        BreedAdapter.BreedViewHolder.getInstance(parent)
 //    }
+private  val TAG = "BreedAdapter"
 
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
@@ -31,6 +35,12 @@ class BreedAdapter(
 
     override fun onBindViewHolder(holder: BreedViewHolder, position: Int) {
         holder.loadBreed(breedList[position])
+        val breed = breedList[position];
+        holder.itemView.setOnClickListener {
+
+            Log.i(TAG, "onBindViewHolder: ITEM was clicked at position ${position} ")
+            listener(breed)
+        }
 
     }
 
@@ -43,6 +53,8 @@ class BreedAdapter(
             notifyItemRangeInserted(positionStart, breeds.size)
         }
     }
+
+
 
 
     fun clear() {
