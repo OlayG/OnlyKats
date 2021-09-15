@@ -21,7 +21,7 @@ class KatAdapter(
     ) = KatViewHolder.getInstance(parent)
 
     override fun onBindViewHolder(holder: KatViewHolder, position: Int) {
-        holder.loadKat(katList[position])
+        holder.loadRandomKat(katList[position])
     }
 
     override fun getItemCount() = katList.size
@@ -34,11 +34,17 @@ class KatAdapter(
         }
     }
 
+    fun clearList() {
+        val positionStart = katList.size
+        katList.clear()
+        notifyItemRangeInserted(0, positionStart)
+    }
+
     class KatViewHolder(
         private val binding: ItemKatBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun loadKat(kat: Kat) = with(binding) {
+        fun loadRandomKat(kat: Kat) = with(binding) {
             ivKat.loadWithGlide(kat.url)
         }
 

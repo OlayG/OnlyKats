@@ -1,9 +1,12 @@
 package com.olayg.onlykats.model
 
+import android.os.Parcelable
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import kotlinx.parcelize.Parcelize
 
 @JsonClass(generateAdapter = true)
+@Parcelize
 data class Breed(
     val adaptability: Int?,
     @Json(name = "affection_level")
@@ -62,4 +65,4 @@ data class Breed(
     val weight: Weight?,
     @Json(name = "wikipedia_url")
     val wikipediaUrl: String?
-)
+) : Parcelable

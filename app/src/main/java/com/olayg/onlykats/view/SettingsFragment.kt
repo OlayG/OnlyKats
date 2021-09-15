@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.annotation.NonNull
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textview.MaterialTextView
 import com.olayg.onlykats.R
+import com.olayg.onlykats.databinding.FragmentBrowseBinding
 import com.olayg.onlykats.databinding.FragmentSettingsBinding
 import com.olayg.onlykats.model.request.Queries
 import com.olayg.onlykats.util.EndPoint
@@ -33,13 +33,16 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): ViewGroup {
-        _binding = FragmentSettingsBinding.inflate(inflater, container, false)
+    ) = FragmentSettingsBinding.inflate(layoutInflater, container, false).also {
+        _binding = it
+
+    }.root
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         initView()
         initObservers()
-
-        return binding.root
     }
 
     override fun onResume() {
@@ -53,9 +56,12 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     private fun initView() = with(binding) {
+        toggleApply()
         katViewModel.queries?.let { sliderLimit.value = it.limit.toFloat() }
         sliderLimit.addOnChangeListener { _, _, _ -> toggleApply() }
-        btnApply.setOnClickListener { katViewModel.fetchData(getKatQueries())
+        btnApply.setOnClickListener {
+            katViewModel.fetchData(getKatQueries())
+            findNavController().navigateUp()
         }
     }
 
@@ -85,9 +91,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
     }
 
-    private fun toggleImagesView(show: Boolean) = with(binding) {
-
-    }
+    private fun toggleImagesView(show: Boolean) = with(binding) {}
 
     private fun toggleBreedsView(show: Boolean) = with(binding) {}
 

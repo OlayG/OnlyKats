@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/browseFragment">
-
     <fragment
         android:id="@+id/browseFragment"
         android:name="com.olayg.onlykats.view.BrowseFragment"
         android:label="fragment_browse"
         tools:layout="@layout/fragment_browse">
+
         <action
-            android:id="@+id/action_settingsFragment"
+            android:id="@+id/action_browseFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
         <action
-            android:id="@+id/action_detailsFragment"
+            android:id="@+id/action_BrowseFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
     </fragment>
 
@@ -22,7 +22,16 @@
         android:id="@+id/detailsFragment"
         android:name="com.olayg.onlykats.view.DetailsFragment"
         android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" />
+        tools:layout="@layout/fragment_detail">
+
+        <action
+            android:id="@+id/action_detailsFragment_to_browseFragment"
+            app:destination="@id/browseFragment" />
+        <argument
+            android:name="details"
+            app:argType="com.olayg.onlykats.model.Breed" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/settingsFragment"
