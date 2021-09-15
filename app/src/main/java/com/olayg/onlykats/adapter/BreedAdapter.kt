@@ -44,11 +44,12 @@ class BreedAdapter(
         }
     }
 
+
     fun clear() {
-        val listSize = 0
+        val listSize = breedList.size
+        breedList.clear()
         notifyItemRangeRemoved(0, listSize)
     }
-
 
 
     class BreedViewHolder(

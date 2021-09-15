@@ -44,7 +44,12 @@ class BrowseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if(katViewModel.queries == null){
+            //requires safe args from navigation dependencies for directions
+            findNavController().navigate(BrowseFragmentDirections.actionSettingsFragment())
+        }
         setupObservers()
+        initViews()
     }
 
     override fun onDestroyView() {
@@ -86,6 +91,7 @@ class BrowseFragment : Fragment() {
     private fun loadKats(kats: List<Kat>) = with(binding.rvList) {
         Log.d(TAG, "ApiState.Success: $kats")
         if (adapter == null) adapter = katAdapter
+        if(katViewModel.currentPageAction == PageAction.FIRST) katAdapter.clear()
         breedAdapter.clear()
         katAdapter.updateList(kats)
     }
@@ -93,6 +99,7 @@ class BrowseFragment : Fragment() {
     private fun loadBreeds(breeds: List<Breed>) = with(binding.rvList) {
         Log.d(TAG, "ApiState.Success: $breeds")
         if (adapter == null) adapter = breedAdapter
+        if(katViewModel.currentPageAction == PageAction.FIRST) breedAdapter.clear()
         katAdapter.clear()
         breedAdapter.updateList(breeds)
     }

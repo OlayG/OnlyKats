@@ -59,7 +59,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private fun initView() = with(binding) {
         katViewModel.queries?.let { sliderLimit.value = it.limit.toFloat() }
         sliderLimit.addOnChangeListener { _, _, _ -> toggleApply() }
-        btnApply.setOnClickListener { katViewModel.fetchData(getKatQueries()) }
+        btnApply.setOnClickListener { katViewModel.fetchData(getKatQueries())
+            findNavController().navigateUp()
+        }
     }
 
     private fun initObservers() = with(katViewModel) {
