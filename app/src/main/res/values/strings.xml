@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">OnlyKats</string>
+    <string name="settings">Settings</string>
+    <string name="details">Details</string>
+    <string name="browse">Browse</string>
+    <string name="limit">Limit</string>
+    <string name="apply">Apply</string>
+    <string name="endpoint">Endpoint</string>
+    <string name="adaptabilty">Adaptabilty</string>
+    <string name="affection_level">Affection Level</string>
+    <string name="child_friendly">Child Friendly</string>
+    <string name="dog_friendly">Dog Friendly</string>
+    <string name="energy_level">Energy Level</string>
+    <string name="experimental">Experimental</string>
+    <string name="rare">Rare</string>
+    <string name="social_need">Social Need</string>
+    <string name="stranger_friendly">Stranger Friendly</string>
+    <string name="grooming">Grooming</string>
+    <string name="hairlessness">Hairlessness</string>
+    <string name="intelligence">Intelligence</string>
+    <string name="shedding_level">Shedding Level</string>
 </resources>

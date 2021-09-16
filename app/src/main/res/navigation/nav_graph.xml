@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/browseFragment">
+
+    <fragment
+        android:id="@+id/browseFragment"
+        android:name="com.olayg.onlykats.view.BrowseFragment"
+        android:label="fragment_browse"
+        tools:layout="@layout/fragment_browse">
+        <action
+            android:id="@+id/action_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.olayg.onlykats.view.DetailsFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail" >
+<!--        <argument-->
+<!--            android:name="name"-->
+<!--            app:argType="string"-->
+<!--            app:nullable="true" />-->
+<!--        <argument-->
+<!--            android:name="description"-->
+<!--            app:argType="string"-->
+<!--            app:nullable="true" />-->
+<!--        <argument-->
+<!--            android:name="origin"-->
+<!--            app:argType="string"-->
+<!--            app:nullable="true" />-->
+<!--        <argument-->
+<!--            android:name="vetStreetUrl"-->
+<!--            app:argType="string"-->
+<!--            app:nullable="true" />-->
+<!--        <argument-->
+<!--            android:name="vcaHospitalUrl"-->
+<!--            app:argType="string"-->
+<!--            app:nullable="true" />-->
+<!--        <argument-->
+<!--            android:name="wikiUrl"-->
+<!--            app:argType="string"-->
+<!--            app:nullable="true" />-->
+<!--        <argument-->
+<!--            android:name="adaptability"-->
+<!--            app:argType="string"-->
+<!--            app:nullable="true" />-->
+<!--        <argument-->
+<!--            android:name="affectionLevel"-->
+<!--            app:argType="string"-->
+<!--            app:nullable="true" />-->
+<!--        <argument-->
+<!--            android:name="childFriendly"-->
+<!--            app:argType="string"-->
+<!--            app:nullable="true" />-->
+<!--        <argument-->
+<!--            android:name="dogFriendly"-->
+<!--            app:argType="string"-->
+<!--            app:nullable="true" />-->
+<!--        <argument-->
+<!--            android:name="energyLevel"-->
+<!--            app:argType="string"-->
+<!--            app:nullable="true" />-->
+<!--        <argument-->
+<!--            android:name="experimental"-->
+<!--            app:argType="string"-->
+<!--            app:nullable="true" />-->
+<!--        <argument-->
+<!--            android:name="rare"-->
+<!--            app:argType="string"-->
+<!--            app:nullable="true" />-->
+<!--        <argument-->
+<!--            android:name="socialNeed"-->
+<!--            app:argType="string"-->
+<!--            app:nullable="true" />-->
+<!--        <argument-->
+<!--            android:name="strangerFriendly"-->
+<!--            app:argType="string"-->
+<!--            app:nullable="true" />-->
+        <argument
+            android:name="parcel"
+            app:argType="com.olayg.onlykats.model.Breed"
+            app:nullable="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.olayg.onlykats.view.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+</navigation>
