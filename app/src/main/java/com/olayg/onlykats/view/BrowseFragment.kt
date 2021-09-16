@@ -35,7 +35,14 @@ class BrowseFragment : Fragment() {
 
     private val breedAdapter by lazy {
         BreedAdapter() { breed ->
-            Log.i(TAG, "clicked: ${breed}")
+            Log.i(TAG, "clicked: ${breed.wikipediaUrl}")
+            var testIt  = 3;
+           // findNavController().navigate(BrowseFragmentDirections.actionDetailsFragment(testIt))
+
+
+
+            val action = BrowseFragmentDirections.actionDetailsFragment(breed.toString())
+             findNavController().navigate(action)
         }
     }
 
