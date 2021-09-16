@@ -1,11 +1,15 @@
 package com.olayg.onlykats.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.olayg.onlykats.R
 import com.olayg.onlykats.databinding.ItemKatBinding
 import com.olayg.onlykats.model.Kat
 import com.olayg.onlykats.util.loadWithGlide
+import kotlin.coroutines.coroutineContext
 
 /**
  * ListView - loads all objects into memory
@@ -21,7 +25,6 @@ class KatAdapter(
     ) = KatViewHolder.getInstance(parent)
 
     override fun onBindViewHolder(holder: KatViewHolder, position: Int) {
-
         holder.loadKat(katList[position])
     }
 
@@ -45,6 +48,7 @@ class KatAdapter(
     class KatViewHolder(
         private val binding: ItemKatBinding
     ) : RecyclerView.ViewHolder(binding.root) {
+
 
         fun loadKat(kat: Kat) = with(binding) {
             ivKat.loadWithGlide(kat.url)

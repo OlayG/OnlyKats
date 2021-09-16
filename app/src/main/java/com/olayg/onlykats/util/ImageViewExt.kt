@@ -3,6 +3,7 @@ package com.olayg.onlykats.util
 import android.util.Log
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.google.android.material.imageview.ShapeableImageView
 
 fun ImageView.loadWithGlide(url: String?) {
     Log.e("lWG", "Inside of loadWithGlide for: $url")
@@ -10,10 +11,16 @@ fun ImageView.loadWithGlide(url: String?) {
         .load(url)
         .into(this)
 }
-fun ImageView.loadBreedsWithGlide(name: String?,url: String?)
+fun ImageView.loadBreedsWithGlide(url: String?)
 {
     Glide.with(context)
         .load(url)
-        .load(name)
+        .into(this)
+}
+
+fun ShapeableImageView.loadSingleImage(url: String?)
+{
+    Glide.with(context)
+        .load(url)
         .into(this)
 }

@@ -50,7 +50,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
 
     private fun initView() = with(binding) {
-            toggleApply()
         katViewModel.queries?.let { sliderLimit.value = it.limit.toFloat() }
         sliderLimit.addOnChangeListener { _, _, _ -> toggleApply() }
         btnApply.setOnClickListener {

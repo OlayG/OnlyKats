@@ -31,7 +31,7 @@ class BrowseFragment : Fragment() {
     private val binding get() = _binding!!
     private val katViewModel by activityViewModels<KatViewModel>()
     private val katAdapter by lazy { KatAdapter() }
-    private val breedAdapter by lazy { BreedAdapter() }
+    private val breedAdapter by lazy { BreedAdapter(){} }
 
 
     override fun onCreateView(
@@ -58,7 +58,6 @@ class BrowseFragment : Fragment() {
 
     // with(receiver) is 1 of 5 scope functions
     private fun initViews() = with(binding) {
-
         rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (!recyclerView.canScrollVertically(-1) && dy < 0) {
@@ -70,6 +69,7 @@ class BrowseFragment : Fragment() {
             }
         })
     }
+
 
 
     private fun setupObservers() = with(katViewModel) {
@@ -101,6 +101,7 @@ class BrowseFragment : Fragment() {
     {
         Log.e("breeds load", "we are in LoadBreds")
         if (adapter == null) adapter = breedAdapter
+        if (katViewModel.currentPagAction == PageAction.FIRST) breedAdapter.clear()
         katAdapter.clear()
         breedAdapter.updateList(breeds)
     }
