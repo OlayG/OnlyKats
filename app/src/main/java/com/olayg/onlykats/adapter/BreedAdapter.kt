@@ -3,16 +3,18 @@ package com.olayg.onlykats.adapter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.olayg.onlykats.databinding.ItemBreedBinding
-import com.olayg.onlykats.databinding.ItemKatBinding
 import com.olayg.onlykats.model.Breed
-import com.olayg.onlykats.model.Kat
 import com.olayg.onlykats.util.loadWithGlide
-import okio.blackholeSink
+import com.olayg.onlykats.view.BrowseFragmentDirections
+
 
 class BreedAdapter(
-    private val breedList: MutableList<Breed> = mutableListOf()
+    private val breedList: MutableList<Breed> = mutableListOf(),
 ) : RecyclerView.Adapter<BreedAdapter.BreedViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = BreedViewHolder.getInstance(parent)
@@ -38,12 +40,15 @@ class BreedAdapter(
     }
 
     class BreedViewHolder(
-        private val binding: ItemBreedBinding
+        private val binding: ItemBreedBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun loadBreed(breed: Breed) = with(binding) {
             breed.image?.url?.let { ivBreed.loadWithGlide(it) }
             breedName.text = breed.name
+            ivBreed.setOnClickListener{
+                Navigation.findNavController(it).navigate(BrowseFragmentDirections.actionDetailsFragment(breed))
+            }
         }
 
         companion object {
@@ -54,7 +59,6 @@ class BreedAdapter(
                 return BreedViewHolder(binding)
             }
         }
-
     }
 
 }

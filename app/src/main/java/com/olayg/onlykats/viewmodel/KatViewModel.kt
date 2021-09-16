@@ -21,6 +21,13 @@ class KatViewModel : ViewModel() {
     private val _breedState = MutableLiveData<ApiState<List<Breed>>>()
     val breedState: LiveData<ApiState<List<Breed>>> get() = _breedState
 
+    private val _selectedBreed = MutableLiveData<Breed>()
+    val selectedBreed : LiveData<Breed> get() = _selectedBreed
+
+    fun setCurrentBreed(breed:Breed) {
+        _selectedBreed.postValue(breed)
+    }
+
     // This lets us combine multiple livedata's into 1, I am using this to update settings anytime
     // the states change
     val stateUpdated = MediatorLiveData<Unit>().apply {

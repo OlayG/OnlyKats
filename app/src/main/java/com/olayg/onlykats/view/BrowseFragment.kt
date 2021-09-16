@@ -39,13 +39,13 @@ class BrowseFragment : Fragment() {
         _binding = it
     }.root
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
         setupObservers()
 
         if (katViewModel.katState.value == null && katViewModel.breedState.value == null) {
-//            Navigation.findNavController(view).navigate(R.id.action_settingsFragment)
             findNavController().navigate(BrowseFragmentDirections.actionSettingsFragment())
         }
     }
@@ -61,9 +61,9 @@ class BrowseFragment : Fragment() {
         rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (!recyclerView.canScrollVertically(-1) && dy < 0) {
-                    Log.d(TAG, "TOP OF LIST")
+                    Log.e(TAG, "TOP OF LIST")
                 } else if (!recyclerView.canScrollVertically(1) && dy > 0) {
-                    Log.d(TAG, "BOTTOM OF LIST")
+                    Log.e(TAG, "BOTTOM OF LIST")
                     katViewModel.fetchData(PageAction.NEXT)
                 }
             }
