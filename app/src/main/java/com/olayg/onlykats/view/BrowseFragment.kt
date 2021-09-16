@@ -41,7 +41,7 @@ class BrowseFragment : Fragment() {
 
 
 
-            val action = BrowseFragmentDirections.actionDetailsFragment(breed.toString())
+            val action = BrowseFragmentDirections.actionDetailsFragment(breed)
              findNavController().navigate(action)
         }
     }

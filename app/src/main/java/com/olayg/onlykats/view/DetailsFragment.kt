@@ -24,9 +24,10 @@ class DetailsFragment : Fragment(R.layout.fragment_detail) {
         savedInstanceState: Bundle?
     ) = FragmentDetailBinding.inflate(layoutInflater, container, false).also {
         _binding = it
-         val myTestArg = args.breedArg
+        val breed = args.breedArg
 
-        Log.i(TAG, "onCreateView: the value is ${myTestArg}) ")
+
+        Log.i(TAG, "onCreateView in details: the value is ${breed.wikipediaUrl}) ")
 
     }.root
 

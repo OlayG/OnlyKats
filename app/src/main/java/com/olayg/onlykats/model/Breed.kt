@@ -1,5 +1,7 @@
 package com.olayg.onlykats.model
 
+import android.os.Parcel
+import android.os.Parcelable
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -62,4 +64,99 @@ data class Breed(
     val weight: Weight?,
     @Json(name = "wikipedia_url")
     val wikipediaUrl: String?
-)
+) : Parcelable {
+    constructor(parcel: Parcel) : this(
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readString(),
+        TODO("image"),
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readString(),
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readString(),
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        TODO("weight"),
+        parcel.readString()
+    ) {
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeValue(adaptability)
+        parcel.writeValue(affectionLevel)
+        parcel.writeString(altNames)
+        parcel.writeString(cfaUrl)
+        parcel.writeValue(childFriendly)
+        parcel.writeString(countryCode)
+        parcel.writeString(countryCodes)
+        parcel.writeString(description)
+        parcel.writeValue(dogFriendly)
+        parcel.writeValue(energyLevel)
+        parcel.writeValue(experimental)
+        parcel.writeValue(grooming)
+        parcel.writeValue(hairless)
+        parcel.writeValue(healthIssues)
+        parcel.writeValue(hypoallergenic)
+        parcel.writeString(id)
+        parcel.writeValue(indoor)
+        parcel.writeValue(intelligence)
+        parcel.writeValue(lap)
+        parcel.writeString(lifeSpan)
+        parcel.writeString(name)
+        parcel.writeValue(natural)
+        parcel.writeString(origin)
+        parcel.writeValue(rare)
+        parcel.writeString(referenceImageId)
+        parcel.writeValue(rex)
+        parcel.writeValue(sheddingLevel)
+        parcel.writeValue(shortLegs)
+        parcel.writeValue(socialNeeds)
+        parcel.writeValue(strangerFriendly)
+        parcel.writeValue(suppressedTail)
+        parcel.writeString(temperament)
+        parcel.writeString(vcaHospitalsUrl)
+        parcel.writeString(vetStreetUrl)
+        parcel.writeValue(vocalisation)
+        parcel.writeString(wikipediaUrl)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<Breed> {
+        override fun createFromParcel(parcel: Parcel): Breed {
+            return Breed(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Breed?> {
+            return arrayOfNulls(size)
+        }
+    }
+}

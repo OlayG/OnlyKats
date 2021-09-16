@@ -26,7 +26,7 @@
         <argument
 
         android:name="breedArg"
-            app:argType="string"
+            app:argType="com.olayg.onlykats.model.Breed"
            />
     </fragment>
 
