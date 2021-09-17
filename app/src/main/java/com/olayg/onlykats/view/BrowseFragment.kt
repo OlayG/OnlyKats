@@ -128,7 +128,7 @@ class BrowseFragment : Fragment() {
 
     private fun loadKats(kats: List<Kat>) = with(binding.rvList) {
         Log.d(TAG, "ApiState.Success: $kats")
-        if (adapter == null) adapter = katAdapter
+        if (adapter == null || adapter == breedAdapter) adapter = katAdapter
         if (katViewModel.currentPageAction == PageAction.FIRST) katAdapter.clear()
         breedAdapter.clear()
         katAdapter.updateList(kats)
@@ -136,7 +136,7 @@ class BrowseFragment : Fragment() {
 
     private fun loadBreeds(breeds: List<Breed>) = with(binding.rvList) {
         Log.d(TAG, "ApiState.Success: $breeds")
-        if (adapter == null) adapter = breedAdapter
+        if (adapter == null || adapter == katAdapter) adapter = breedAdapter
         if (katViewModel.currentPageAction == PageAction.FIRST) breedAdapter.clear()
         katAdapter.clear()
         breedAdapter.updateList(breeds)

@@ -95,6 +95,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
            }
 
 
+
             katViewModel.fetchData(queries)
             findNavController().navigateUp()
         }
