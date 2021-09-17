@@ -10,6 +10,14 @@ import androidx.navigation.fragment.navArgs
 import com.olayg.onlykats.R
 import com.olayg.onlykats.databinding.FragmentDetailBinding
 import com.olayg.onlykats.model.Breed
+import android.text.method.LinkMovementMethod
+
+
+
+import android.widget.TextView
+
+
+
 
 
 class DetailsFragment : Fragment(R.layout.fragment_detail) {
@@ -71,8 +79,9 @@ class DetailsFragment : Fragment(R.layout.fragment_detail) {
 
 
 
-        binding.textView.setText(breedInfoString);
 
+        binding.textView.setText(breedInfoString);
+      //  binding.textView.movementMethod = LinkMovementMethod.getInstance()
 
     }.root
 

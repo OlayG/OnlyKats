@@ -13,6 +13,7 @@
         android:layout_height="match_parent"
         android:text="DETAILS"
         android:textSize="12dp"
+        android:autoLink="web"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
