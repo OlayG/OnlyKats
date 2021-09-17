@@ -38,7 +38,13 @@ class DetailsFragment : Fragment(R.layout.fragment_detail) {
     private fun initView() = with(binding) {
         val selectedBreed = args.selectedBreed
         selectedBreed.image?.url?.let { ivDetail.loadWithGlide(it) }
-        detailName.text = selectedBreed.name
+        displayText(selectedBreed)
+    }
+
+    private fun displayText(breed: Breed) = with(binding) {
+        detailName.text = breed.name
+        detailMoreInfo.text = "more info"
+        detailLinks.text = "links"
     }
 
     override fun onDestroyView() {

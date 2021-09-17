@@ -1,21 +1,26 @@
 package com.olayg.onlykats.view
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
+import androidx.datastore.preferences.core.edit
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.Navigation
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textview.MaterialTextView
 import com.olayg.onlykats.R
 import com.olayg.onlykats.databinding.FragmentSettingsBinding
 import com.olayg.onlykats.model.request.Queries
 import com.olayg.onlykats.util.EndPoint
+import com.olayg.onlykats.util.PreferencesKey
 import com.olayg.onlykats.viewmodel.KatViewModel
+
 
 // TODO: 9/10/21 Use toggle method to show or hide unique views for Images (Try using Group in ConstraintLayout)
 // TODO: 9/10/21 Use toggle method to show or hide unique views for Breeds
@@ -55,10 +60,26 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             sliderLimit.value = it.limit.toFloat()
         }
 
-        sliderLimit.addOnChangeListener { _, _, _ -> toggleApply() }
+        sliderLimit.addOnChangeListener { _, _, _ ->
+            toggleApply()
+        }
 
         btnApply.setOnClickListener {
-            katViewModel.fetchData(getKatQueries())
+
+            val queries = getKatQueries()
+
+            viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+                it.context.dataStore.edit { preferences ->
+                    queries.endPoint?.name?.let {
+                        preferences[PreferencesKey.ENDPOINT] = it
+                    }
+                    queries.limit.let {
+                        preferences[PreferencesKey.LIMIT] = it.toFloat()
+                    }
+                }
+            }
+
+            katViewModel.fetchData(queries)
             findNavController().navigateUp()
         }
     }

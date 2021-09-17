@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -17,9 +18,14 @@ import com.olayg.onlykats.adapter.KatAdapter
 import com.olayg.onlykats.databinding.FragmentBrowseBinding
 import com.olayg.onlykats.model.Breed
 import com.olayg.onlykats.model.Kat
+import com.olayg.onlykats.model.request.Queries
 import com.olayg.onlykats.util.ApiState
+import com.olayg.onlykats.util.EndPoint
 import com.olayg.onlykats.util.PageAction
+import com.olayg.onlykats.util.PreferencesKey
 import com.olayg.onlykats.viewmodel.KatViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 
 // TODO: 9/11/21 Show an AlertDialog with error message to prompt user of failures
 
@@ -45,8 +51,20 @@ class BrowseFragment : Fragment() {
         initViews()
         setupObservers()
 
-        if (katViewModel.katState.value == null && katViewModel.breedState.value == null) {
-            findNavController().navigate(BrowseFragmentDirections.actionSettingsFragment())
+        if (katViewModel.queries == null) {
+            viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+                view.context.dataStore.data.map { preferences ->
+                    preferences[PreferencesKey.ENDPOINT]?.let{
+                        Queries(EndPoint.valueOf(it), preferences[PreferencesKey.LIMIT]?.toInt() ?: 10 , 0)
+                    }
+                }.collect {
+                    if (it == null) {
+                        findNavController().navigate(BrowseFragmentDirections.actionSettingsFragment())
+                    } else {
+                        katViewModel.fetchData(it)
+                    }
+                }
+            }
         }
     }
 
