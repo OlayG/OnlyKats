@@ -13,7 +13,7 @@ import com.olayg.onlykats.util.loadWithGlide
  * ListAdapter - Same as Recyclerview but we don't have to use the notify methods to update the adapter
  */
 class KatAdapter(
-    private val katList: MutableList<Kat> = mutableListOf()
+    private val katList: MutableList<Kat> = mutableListOf(),
 ) : RecyclerView.Adapter<KatAdapter.KatViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -41,7 +41,7 @@ class KatAdapter(
     }
 
     class KatViewHolder(
-        private val binding: ItemKatBinding
+        private val binding: ItemKatBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun loadRandomKat(kat: Kat) = with(binding) {

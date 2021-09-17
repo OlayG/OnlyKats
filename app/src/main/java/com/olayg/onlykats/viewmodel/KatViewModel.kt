@@ -8,13 +8,10 @@ import com.olayg.onlykats.repo.KatRepo
 import com.olayg.onlykats.util.ApiState
 import com.olayg.onlykats.util.EndPoint
 import com.olayg.onlykats.util.PageAction
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-// TODO: 9/10/21 Get the breedState from repo and load into the breedState livedata
-// TODO: 9/10/21 Once you the breedState from repo make sure you update isNextPage
-class KatViewModel : ViewModel() {
+class KatViewModel: ViewModel() {
 
     private val _katState = MutableLiveData<ApiState<List<Kat>>>()
     val katState: LiveData<ApiState<List<Kat>>> get() = _katState
@@ -22,19 +19,16 @@ class KatViewModel : ViewModel() {
     private val _breedState = MutableLiveData<ApiState<List<Breed>>>()
     val breedState: LiveData<ApiState<List<Breed>>> get() = _breedState
 
-    // This lets us combine multiple livedata's into 1, I am using this to update settings anytime
-    // the states change
+    // This lets us combine multiple livedata's into 1, I am using this to update settings anytime the states change
     val stateUpdated : LiveData<Unit> = MediatorLiveData<Unit>().apply {
         addSource(_katState) { value = Unit }
         addSource(_breedState) { value = Unit }
     }
 
     var queries: Queries? = null
-
     private var isNextPage = false
     private var currentPage = -1
     var currentPageAction = PageAction.FIRST
-
 
     fun fetchData(queries: Queries) {
         this.queries = queries
@@ -79,5 +73,4 @@ class KatViewModel : ViewModel() {
         PageAction.NEXT -> page.inc()
         PageAction.PREV -> if (page > 0) page.dec() else page
     }
-
 }

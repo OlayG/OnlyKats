@@ -38,4 +38,9 @@
         <item name="itemTextAppearance">?attr/textAppearanceBody2</item>
     </style>
 
+    <style name="Widget.AppCompat.CustomRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/ic_cat</item>
+        <item name="android:indeterminateDrawable">@drawable/ic_cat</item>
+    </style>
+
 </resources>

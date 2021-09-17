@@ -11,7 +11,6 @@ import androidx.navigation.fragment.navArgs
 import com.olayg.onlykats.R
 import com.olayg.onlykats.databinding.FragmentDetailBinding
 import com.olayg.onlykats.util.loadWithGlide
-import android.text.method.LinkMovementMethod
 
 class DetailsFragment : Fragment(R.layout.fragment_detail) {
 
@@ -31,22 +30,24 @@ class DetailsFragment : Fragment(R.layout.fragment_detail) {
         super.onViewCreated(view, savedInstanceState)
 
         loadKatDetails()
+        handleBackToBrowse()
+    }
+    // As we navigate to the details fragment, pass the detail args as well to display the details
+    private fun loadKatDetails() = with(binding) {
+        args.details.image?.url?.let { ivKatDetail.loadWithGlide(it) }
+        breedNameKat.text = args.details.name
+        lifeSpanKat.text = args.details.lifeSpan
+        energyLevel.rating = args.details.energyLevel?.toFloat()!!
+        socialNeeds.rating = args.details.socialNeeds?.toFloat()!!
+        (args.details.vetStreetUrl).also { vetStreetUrlKat.text = it }
+        (args.details.wikipediaUrl).also { wikipediaUrlKat.text = it }
+    }
+
+    private fun handleBackToBrowse() {
+        // Provide functionality for thr back button in the details fragment
         binding.btnBackToBrowse.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_detailsFragment_to_browseFragment)
         }
-    }
-
-    private fun loadKatDetails() = with(binding) {
-        val wikiUrl = wikipediaUrlKat
-        wikiUrl.movementMethod = LinkMovementMethod.getInstance()
-        args.details.image?.url?.let { ivKatDetail.loadWithGlide(it) }
-        breedNameKat.text = args.details.name
-        ("Lifespan: " + args.details.lifeSpan + " Years ").also { lifeSpanKat.text = it }
-        ("Energy Level: " + args.details.energyLevel).also { energyLevelKat.text = it }
-        ("Shedding Level: " + args.details.sheddingLevel).also { sheddingLevelKat.text = it }
-        ("Social Needs: " + args.details.socialNeeds).also { socialNeedsKat.text = it }
-        (args.details.vetStreetUrl).also { vetStreetUrlKat.text = it }
-        (args.details.wikipediaUrl).also { wikiUrl.text = it }
     }
 
     override fun onDestroyView() {

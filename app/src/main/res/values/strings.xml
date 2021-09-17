@@ -11,4 +11,8 @@
     <string name="home_title">Only Kats</string>
     <string name="home">home</string>
     <string name="back">Back</string>
+    <string name="energy_level">Energy Level:</string>
+    <string name="shedding_level">Shedding Level:</string>
+    <string name="social_needs">Social Needs:</string>
+    <string name="lifespan">Lifespan:</string>
 </resources>

@@ -12,7 +12,7 @@
         <entry key="app/src/main/res/drawable/ic_home_image.xml" value="0.17592592592592593" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.17592592592592593" />
         <entry key="app/src/main/res/drawable/ic_smileing_kat.xml" value="0.17592592592592593" />
-        <entry key="app/src/main/res/layout/fragment_detail.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_detail.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.165" />
         <entry key="app/src/main/res/layout/item_breed_kat.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_details.xml" value="0.16018518518518518" />

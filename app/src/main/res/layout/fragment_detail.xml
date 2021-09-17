@@ -9,9 +9,10 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/iv_kat_detail"
-        android:layout_width="250dp"
+        android:layout_width="300dp"
         android:layout_height="150dp"
         android:scaleType="fitXY"
+        android:layout_margin="8dp"
         app:layout_constraintBottom_toTopOf="@id/lifeSpan_kat"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,40 +29,65 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/lifespan_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lifespan"
+        android:layout_marginEnd="25dp"
+        app:layout_constraintBottom_toTopOf="@id/energy_level_kat_text"
+        app:layout_constraintEnd_toStartOf="@+id/energy_level"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_kat_detail" />
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lifeSpan_kat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/energyLevel_kat"
+        app:layout_constraintBottom_toTopOf="@id/energy_level"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/lifespan_text"
         app:layout_constraintTop_toBottomOf="@id/iv_kat_detail" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/energyLevel_kat"
+        android:id="@+id/energy_level_kat_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/sheddingLevel_kat"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/energy_level"
+        app:layout_constraintBottom_toTopOf="@id/social_needs_text"
+        app:layout_constraintEnd_toStartOf="@id/energy_level"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lifespan_text" />
+
+    <RatingBar
+        android:id="@+id/energy_level"
+        style="@style/Widget.AppCompat.RatingBar.Indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        app:layout_constraintBottom_toTopOf="@id/social_needs"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/energy_level_kat_text"
         app:layout_constraintTop_toBottomOf="@id/lifeSpan_kat" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/sheddingLevel_kat"
+        android:id="@+id/social_needs_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/socialNeeds_kat"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/social_needs"
+        app:layout_constraintBottom_toTopOf="@id/vetStreetUrl_kat"
+        app:layout_constraintEnd_toStartOf="@id/social_needs"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/energyLevel_kat" />
+        app:layout_constraintTop_toBottomOf="@id/energy_level_kat_text" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/socialNeeds_kat"
+    <RatingBar
+        android:id="@+id/social_needs"
+        style="@style/Widget.AppCompat.RatingBar.Indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/vetStreetUrl_kat"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sheddingLevel_kat" />
+        app:layout_constraintStart_toEndOf="@id/social_needs_text"
+        app:layout_constraintTop_toBottomOf="@id/energy_level" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/vetStreetUrl_kat"
@@ -71,7 +97,7 @@
         app:layout_constraintBottom_toTopOf="@id/wikipediaUrl_kat"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/socialNeeds_kat" />
+        app:layout_constraintTop_toBottomOf="@id/social_needs_text" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/wikipediaUrl_kat"
