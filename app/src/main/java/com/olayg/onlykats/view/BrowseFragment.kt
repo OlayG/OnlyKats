@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.olayg.onlykats.adapter.BreedAdapter
@@ -15,9 +17,15 @@ import com.olayg.onlykats.adapter.KatAdapter
 import com.olayg.onlykats.databinding.FragmentBrowseBinding
 import com.olayg.onlykats.model.Breed
 import com.olayg.onlykats.model.Kat
+import com.olayg.onlykats.model.request.Queries
 import com.olayg.onlykats.util.ApiState
+import com.olayg.onlykats.util.EndPoint
 import com.olayg.onlykats.util.PageAction
+import com.olayg.onlykats.util.PreferencesKey
 import com.olayg.onlykats.viewmodel.KatViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 
 /**
  * A simple [Fragment] subclass.
@@ -57,10 +65,26 @@ class BrowseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (katViewModel.queries == null) {
-            //requires safe args from navigation dependencies for directions
-            findNavController().navigate(BrowseFragmentDirections.actionSettingsFragment())
-        }
+
+
+
+        if(katViewModel.queries == null ) viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+        view.context.dataStore.data
+            .map { preferences ->
+                // No type safety.
+                preferences[PreferencesKey.ENDPOINT]?.let { Queries(EndPoint.valueOf(it), 10, 0) }
+            }
+            .collect {
+                if (it == null) {
+                    //requires safe args from navigation dependencies for directions
+                    findNavController().navigate(BrowseFragmentDirections.actionSettingsFragment())
+                }
+                else katViewModel.fetchData(it)
+
+            }
+    }
+
+
 
         //   breedAdapter = ContentAdapter(breeds) { breed -> Log.i(TAG, "onViewCreated: ")}
         setupObservers()

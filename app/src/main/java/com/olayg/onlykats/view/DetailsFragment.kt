@@ -29,6 +29,35 @@ class DetailsFragment : Fragment(R.layout.fragment_detail) {
 
         Log.i(TAG, "onCreateView in details: the value is ${breed.wikipediaUrl}) ")
 
+        val breedInfoString  =
+                "adaptability: ${breed.adaptability} \n" +
+                "affectionLevel: ${breed.affectionLevel} \n" +
+                "altNames: ${breed.altNames} \n" +
+                "cfaUrl: ${breed.cfaUrl} \n" +
+                "childFriendly: ${breed.childFriendly} \n" +
+                "countryCode: ${breed.countryCode} \n" +
+                "description: ${breed.description} \n" +
+                "dogFriendly: ${breed.dogFriendly} \n" +
+                "description: ${breed.description} \n" +
+                "dogFriendly: ${breed.dogFriendly} \n" +
+                "energyLevel: ${breed.energyLevel} \n" +
+                "experimental: ${breed.experimental} \n" +
+                "grooming: ${breed.grooming} \n" +
+                "hairless: ${breed.hairless} \n" +
+                "healthIssues: ${breed.healthIssues} \n" +
+                "hypoallergenic: ${breed.hypoallergenic} \n" +
+                "id: ${breed.id} \n" +
+                "indoor: ${breed.indoor} \n" +
+                "intelligence: ${breed.intelligence} \n" +
+                "lap: ${breed.lap} \n" +
+                "lifeSpan: ${breed.lifeSpan} \n" +
+                "name: ${breed.name} \n" +
+                "natural: ${breed.natural} \n"
+
+
+        binding.textView.setText(breedInfoString);
+
+
     }.root
 
 

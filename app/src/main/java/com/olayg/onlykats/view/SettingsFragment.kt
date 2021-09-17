@@ -1,5 +1,6 @@
 package com.olayg.onlykats.view
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,15 +8,30 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
+import androidx.datastore.core.DataStore
+import androidx.datastore.dataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textview.MaterialTextView
 import com.olayg.onlykats.R
 import com.olayg.onlykats.databinding.FragmentSettingsBinding
 import com.olayg.onlykats.model.request.Queries
+import com.olayg.onlykats.repo.KatRepo
+
+import com.olayg.onlykats.util.ApiState
 import com.olayg.onlykats.util.EndPoint
+import com.olayg.onlykats.util.PreferencesKey
 import com.olayg.onlykats.viewmodel.KatViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 
 /**
  * A simple [Fragment] subclass.
@@ -30,6 +46,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private lateinit var binding: FragmentSettingsBinding
     private val katViewModel by activityViewModels<KatViewModel>()
     private  val TAG = "SettingsFragment"
+    // At the top level of your kotlin file:
+
+
+
 
     //    override fun onCreateView(
 //        inflater: LayoutInflater,
@@ -44,7 +64,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         Log.i(TAG, "onViewCreated: ")
         initView()
 
+
+
     }
+
+
 
     override fun onResume() {
         super.onResume()
@@ -59,7 +83,19 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private fun initView() = with(binding) {
         katViewModel.queries?.let { sliderLimit.value = it.limit.toFloat() }
         sliderLimit.addOnChangeListener { _, _, _ -> toggleApply() }
-        btnApply.setOnClickListener { katViewModel.fetchData(getKatQueries())
+        btnApply.setOnClickListener {
+           val queries = getKatQueries()
+           viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+               it.context.dataStore.edit { settings ->
+                   queries.endPoint?.name?.let {
+                       settings[PreferencesKey.ENDPOINT] = it
+                   }
+               }
+
+           }
+
+
+            katViewModel.fetchData(queries)
             findNavController().navigateUp()
         }
     }
