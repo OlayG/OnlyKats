@@ -52,7 +52,23 @@ class DetailsFragment : Fragment(R.layout.fragment_detail) {
                 "lap: ${breed.lap} \n" +
                 "lifeSpan: ${breed.lifeSpan} \n" +
                 "name: ${breed.name} \n" +
-                "natural: ${breed.natural} \n"
+                "natural: ${breed.natural} \n" +
+                        "origin: ${breed.origin} \n" +
+                        "rare: ${breed.rare} \n" +
+                        "referenceImageId: ${breed.referenceImageId} \n" +
+                        "rex: ${breed.rex} \n" +
+                        "sheddingLevel: ${breed.sheddingLevel} \n" +
+                        "shortLegs: ${breed.shortLegs} \n" +
+                        "socialNeeds: ${breed.socialNeeds} \n" +
+                        "strangerFriendly: ${breed.strangerFriendly} \n" +
+                        "suppressedTail: ${breed.suppressedTail} \n" +
+                        "temperament: ${breed.temperament} \n" +
+                "vcaHospitalsUrl: ${breed.vcaHospitalsUrl} \n" +
+                "vetStreetUrl: ${breed.vetStreetUrl} \n" +
+                "vocalisation: ${breed.vocalisation} \n" +
+                "wikipediaUrl: ${breed.wikipediaUrl} \n"
+
+
 
 
         binding.textView.setText(breedInfoString);
