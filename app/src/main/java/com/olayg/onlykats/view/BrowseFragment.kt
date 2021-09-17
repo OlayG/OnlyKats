@@ -8,8 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.olayg.onlykats.adapter.BreedAdapter
@@ -18,9 +20,14 @@ import com.olayg.onlykats.adapter.KatAdapter
 import com.olayg.onlykats.databinding.FragmentBrowseBinding
 import com.olayg.onlykats.model.Breed
 import com.olayg.onlykats.model.Kat
+import com.olayg.onlykats.model.request.Queries
 import com.olayg.onlykats.util.ApiState
+import com.olayg.onlykats.util.EndPoint
 import com.olayg.onlykats.util.PageAction
+import com.olayg.onlykats.util.PreferenceKey
 import com.olayg.onlykats.viewmodel.KatViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 
 /**
  * A simple [Fragment] subclass.
@@ -42,12 +49,33 @@ class BrowseFragment : Fragment() {
         savedInstanceState: Bundle?
     ) = FragmentBrowseBinding.inflate(layoutInflater, container, false).also {
         _binding = it
-        initViews()
     }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (katViewModel.queries == null) viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            view.context.dataStore.data.map { preferences ->
+                Log.d(TAG, "datastore Limit: ${preferences[PreferenceKey.LIMIT]}")
+                Log.d(TAG, "datastore Endpt: ${preferences[PreferenceKey.ENDPOINT]}")
+
+                preferences[PreferenceKey.ENDPOINT]?.let {
+                    Queries(
+                        endPoint = EndPoint.valueOf(it),
+                        limit = preferences[PreferenceKey.LIMIT] ?:10,
+                        0
+                    )
+                }
+            }.collect {
+                if (it == null) findNavController().navigate(
+                    BrowseFragmentDirections.actionSettingsFragment()
+                )
+                else katViewModel.fetchData(it)
+            }
+        }
+
         setupObservers()
+        initViews()
     }
 
     override fun onDestroyView() {

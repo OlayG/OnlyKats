@@ -35,7 +35,7 @@ class KatAdapter(
     }
 
     fun clear() {
-        val listSize = 0
+        val listSize = katList.size
         notifyItemRangeRemoved(0, listSize)
     }
 

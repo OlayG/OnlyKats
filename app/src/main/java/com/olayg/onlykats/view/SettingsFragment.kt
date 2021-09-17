@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
+import androidx.datastore.preferences.core.edit
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textview.MaterialTextView
 import com.olayg.onlykats.R
@@ -15,6 +17,7 @@ import com.olayg.onlykats.databinding.FragmentSettingsBinding
 import com.olayg.onlykats.model.request.Queries
 import com.olayg.onlykats.util.EndPoint
 import com.olayg.onlykats.util.Order
+import com.olayg.onlykats.util.PreferenceKey
 import com.olayg.onlykats.viewmodel.KatViewModel
 
 /**
@@ -38,10 +41,13 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         savedInstanceState: Bundle?
     ) = FragmentSettingsBinding.inflate(inflater, container, false).also {
         _binding = it
-        initView()
-        initObservers()
     }.root
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
+        initObservers()
+    }
     override fun onResume() {
         super.onResume()
         initEndpointDropdown()
@@ -53,9 +59,22 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     private fun initView() = with(binding) {
-        katViewModel.queries?.let { sliderLimit.value = it.limit.toFloat() }
+        katViewModel.queries?.let {sliderLimit.value = it.limit.toFloat() }
         sliderLimit.addOnChangeListener { _, _, _ -> toggleApply() }
-        btnApply.setOnClickListener { katViewModel.fetchData(getKatQueries()) }
+        btnApply.setOnClickListener {
+            val queries = getKatQueries()
+
+            viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+                it.context.dataStore.edit { settings ->
+                    queries.endPoint?.name?.let {
+                        settings[PreferenceKey.ENDPOINT] = it
+                        settings[PreferenceKey.LIMIT] = queries.limit
+                    }
+                }
+            }
+            katViewModel.fetchData(queries)
+            findNavController().navigateUp()
+        }
     }
 
     private fun initObservers() = with(katViewModel) {
