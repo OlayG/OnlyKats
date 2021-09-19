@@ -55,7 +55,7 @@ class BrowseFragment : Fragment() {
             viewLifecycleOwner.lifecycleScope.launchWhenCreated {
                 view.context.dataStore.data.map { preferences ->
                     preferences[PreferencesKey.ENDPOINT]?.let{
-                        Queries(EndPoint.valueOf(it), preferences[PreferencesKey.LIMIT]?.toInt() ?: 10 , 0)
+                        Queries(EndPoint.valueOf(it), preferences[PreferencesKey.LIMIT] ?: 10 , 0)
                     }
                 }.collect {
                     if (it == null) {

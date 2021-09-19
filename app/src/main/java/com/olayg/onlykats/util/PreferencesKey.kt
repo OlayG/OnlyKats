@@ -6,5 +6,5 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 
 object PreferencesKey {
     val ENDPOINT = stringPreferencesKey("endpoint")
-    val LIMIT = floatPreferencesKey("limit")
+    val LIMIT = intPreferencesKey("limit")
 }

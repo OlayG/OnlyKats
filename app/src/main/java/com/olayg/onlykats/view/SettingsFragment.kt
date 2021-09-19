@@ -1,6 +1,5 @@
 package com.olayg.onlykats.view
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
+import androidx.datastore.dataStore
 import androidx.datastore.preferences.core.edit
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -19,6 +19,7 @@ import com.olayg.onlykats.databinding.FragmentSettingsBinding
 import com.olayg.onlykats.model.request.Queries
 import com.olayg.onlykats.util.EndPoint
 import com.olayg.onlykats.util.PreferencesKey
+import com.olayg.onlykats.util.SettingsManager
 import com.olayg.onlykats.viewmodel.KatViewModel
 
 
@@ -30,7 +31,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
     private val katViewModel by activityViewModels<KatViewModel>()
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -74,7 +74,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                         preferences[PreferencesKey.ENDPOINT] = it
                     }
                     queries.limit.let {
-                        preferences[PreferencesKey.LIMIT] = it.toFloat()
+                        preferences[PreferencesKey.LIMIT] = it
                     }
                 }
             }
