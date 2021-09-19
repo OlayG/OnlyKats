@@ -15,4 +15,12 @@
     <string name="shedding_level">Shedding Level:</string>
     <string name="social_needs">Social Needs:</string>
     <string name="lifespan">Lifespan:</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="name">Name</string>
+    <string name="age">Age</string>
+    <string name="update_kat">Update Kat</string>
+    <string name="add">add</string>
+    <string name="your_kats">Your Kats</string>
+    <string name="update">UPDATE</string>
 </resources>

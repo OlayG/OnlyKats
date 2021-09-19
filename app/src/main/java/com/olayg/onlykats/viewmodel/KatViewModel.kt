@@ -44,7 +44,7 @@ class KatViewModel: ViewModel() {
                 currentPage = query.page!!
                 when (query.endPoint) {
                     EndPoint.IMAGES -> getImages(query)
-                    EndPoint.BREEDS -> getBreeds(query)
+                    else -> getBreeds(query)
                 }
             }
         }

@@ -22,10 +22,6 @@ class PreferenceManager private constructor(val dataStore: DataStore<Preferences
             }
         }
 
-    suspend fun saveQuery() {
-
-    }
-
     companion object {
         private var INSTANCE: PreferenceManager? = null
 

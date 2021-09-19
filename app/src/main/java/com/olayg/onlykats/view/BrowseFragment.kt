@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -18,11 +19,9 @@ import com.olayg.onlykats.adapter.KatAdapter
 import com.olayg.onlykats.databinding.FragmentBrowseBinding
 import com.olayg.onlykats.model.Breed
 import com.olayg.onlykats.model.Kat
-import com.olayg.onlykats.model.request.Queries
 import com.olayg.onlykats.util.*
 import com.olayg.onlykats.viewmodel.KatViewModel
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
 
 class BrowseFragment : Fragment(R.layout.fragment_browse) {
 
@@ -33,19 +32,24 @@ class BrowseFragment : Fragment(R.layout.fragment_browse) {
     private val breedAdapter by lazy { BreedAdapter(listener = ::getKatDetails) }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ) = FragmentBrowseBinding.inflate(layoutInflater, container, false).also {
         _binding = it
     }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as AppCompatActivity).supportActionBar?.hide()
 
+        // CLASS METHODS
         handleDataStore()
         setupObservers()
         handleRecyclerView()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun handleRecyclerView() = with(binding) {
@@ -106,9 +110,7 @@ class BrowseFragment : Fragment(R.layout.fragment_browse) {
         if (adapter == null) adapter = katAdapter
         // If the user wants new list of random kat images, clear the old list of kats
         if (katViewModel.currentPageAction == PageAction.FIRST) katAdapter.clearList()
-        // Clear the list of breeds if any are present
         breedAdapter.clearList()
-        // Lastly update the kat list with the newly selected kats
         katAdapter.updateList(kats)
     }
 
@@ -117,14 +119,11 @@ class BrowseFragment : Fragment(R.layout.fragment_browse) {
         if (adapter == null) adapter = breedAdapter
         // if the user wants a new list of breeds, clear the old lost of breeds
         if (katViewModel.currentPageAction == PageAction.FIRST) breedAdapter.clearList()
-        // Clear the list of random kat images if any are present
         katAdapter.clearList()
-        // Lastly, update the breed list with the newly selected breeds
         breedAdapter.updateBreedList(breeds)
     }
 
     private fun getKatDetails(breed: Breed) {
-        // Upon pressing a kat image, navigate to the details fragment along with the details of the kat.
         findNavController().navigate(
             BrowseFragmentDirections.actionBrowseFragmentToDetailsFragment(breed)
         )
@@ -132,11 +131,6 @@ class BrowseFragment : Fragment(R.layout.fragment_browse) {
 
     private fun handleFailure(errorMsg: String) {
         Log.d(TAG, "ApiState.Failure: $errorMsg")
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     companion object {

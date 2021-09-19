@@ -6,6 +6,11 @@
         android:icon="@drawable/ic_browse"
         android:title="@string/browse" />
     <item
+        android:id="@+id/katDataBrowseFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_cat"
+        android:title="@string/your_kats" />
+    <item
         android:id="@+id/settingsFragment"
         android:enabled="true"
         android:icon="@drawable/ic_settings"

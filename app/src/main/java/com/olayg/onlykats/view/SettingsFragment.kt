@@ -1,10 +1,9 @@
 package com.olayg.onlykats.view
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ArrayAdapter
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.datastore.preferences.core.edit
 import androidx.fragment.app.Fragment
@@ -33,14 +32,19 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         savedInstanceState: Bundle?
     ) = FragmentSettingsBinding.inflate(layoutInflater, container, false).also {
         _binding = it
-
     }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        handleApplyButtonAndSliderLimit()
-        settingsObserver()
+        handleApplyButtonAndSliderPreference()
+        setupObserver()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.actionbar_menu, menu)
+        (activity as AppCompatActivity).supportActionBar?.show()
+        (activity as AppCompatActivity).supportActionBar?.title = "Settings"
     }
 
     override fun onResume() {
@@ -53,13 +57,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         _binding = null
     }
 
-    private fun settingsObserver() = with(katViewModel) {
-        // Observe the settings and update it anytime the state changes
+    private fun setupObserver() = with(katViewModel) {
         stateUpdated.observe(viewLifecycleOwner) { toggleApply() }
     }
 
-    private fun handleApplyButtonAndSliderLimit() = with(binding) {
-        // Since it only accepts floats, change the value of the slider limit to a float
+    private fun handleApplyButtonAndSliderPreference() = with(binding) {
         katViewModel.queries?.let { sliderLimit.value = it.limit.toFloat() }
         sliderLimit.addOnChangeListener { _, _, _ -> toggleApply() }
 
@@ -90,12 +92,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             setText(it.name)
             setSelection(it.ordinal)
         }
-        // Return the context, resource, and textViewResourceId for each object->(KAT) in the collection
+        // Return the context, resource, and textViewResourceId for each kat in the collection
         setAdapter(ArrayAdapter(context, R.layout.item_endpoint, EndPoint.values().map { it.name }))
         setOnItemClickListener { _, view, _, _ ->
             // Convert the View text to a string
             val selectedEndpointText = (view as MaterialTextView).text.toString()
-            // Define a conditional expression for the selected endpoint
             when (EndPoint.valueOf(selectedEndpointText)) {
                 // If the selected endpoint is IMAGES toggle images
                 EndPoint.IMAGES -> {
@@ -113,12 +114,15 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
     }
 
-    private fun toggleImagesView(show: Boolean) = with(binding) {}
+    private fun toggleImagesView(show: Boolean) {
+        binding.btnApply.isVisible = show
+    }
 
-    private fun toggleBreedsView(show: Boolean) = with(binding) {}
+    private fun toggleBreedsView(show: Boolean) {
+        binding.btnApply.isVisible = show
+    }
 
     private fun toggleApply() {
-        // Make the apply button visible if the query has been validated
         binding.btnApply.isVisible = validateQuery()
     }
 

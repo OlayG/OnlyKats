@@ -1,11 +1,10 @@
 package com.olayg.onlykats.view
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 
 import com.olayg.onlykats.R
@@ -19,39 +18,43 @@ class DetailsFragment : Fragment(R.layout.fragment_detail) {
     private val args: DetailsFragmentArgs by navArgs()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ) = FragmentDetailBinding.inflate(layoutInflater, container, false).also {
         _binding = it
     }.root
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        // ACTION BAR
+        setHasOptionsMenu(true)
+        // CLASS METHODS
         loadKatDetails()
-        handleBackToBrowse()
-    }
-    // As we navigate to the details fragment, pass the detail args as well to display the details
-    private fun loadKatDetails() = with(binding) {
-        args.details.image?.url?.let { ivKatDetail.loadWithGlide(it) }
-        breedNameKat.text = args.details.name
-        lifeSpanKat.text = args.details.lifeSpan
-        energyLevel.rating = args.details.energyLevel?.toFloat()!!
-        socialNeeds.rating = args.details.socialNeeds?.toFloat()!!
-        (args.details.vetStreetUrl).also { vetStreetUrlKat.text = it }
-        (args.details.wikipediaUrl).also { wikipediaUrlKat.text = it }
     }
 
-    private fun handleBackToBrowse() {
-        // Provide functionality for thr back button in the details fragment
-        binding.btnBackToBrowse.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_detailsFragment_to_browseFragment)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.actionbar_menu, menu)
+        (activity as AppCompatActivity).supportActionBar?.show()
+        (activity as AppCompatActivity).supportActionBar?.title = "${args.details.name} Details"
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.back) {
+            findNavController().navigateUp()
         }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun loadKatDetails() = with(binding) {
+        args.details.image?.url?.let { ivKatDetail.loadWithGlide(it) }
+        lifeSpanKat.text = args.details.lifeSpan
+        energyLevel.rating = args.details.energyLevel?.toFloat()!!
+        socialNeeds.rating = args.details.socialNeeds?.toFloat()!!
+        (args.details.vetStreetUrl).also { vetStreetUrlKat.text = it }
+        (args.details.wikipediaUrl).also { wikipediaUrlKat.text = it }
     }
 }
