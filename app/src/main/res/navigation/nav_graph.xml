@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/browseFragment">
+
+    <fragment
+        android:id="@+id/browseFragment"
+        android:name="com.olayg.onlykats.view.BrowseFragment"
+        android:label="fragment_browse"
+        tools:layout="@layout/fragment_browse">
+
+        <action
+            android:id="@+id/action_browseFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+
+        <action
+            android:id="@+id/action_BrowseFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.olayg.onlykats.view.DetailsFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail">
+
+        <action
+            android:id="@+id/action_detailsFragment_to_browseFragment"
+            app:destination="@id/browseFragment" />
+
+        <argument
+            android:name="details"
+            app:argType="com.olayg.onlykats.model.Breed" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.olayg.onlykats.view.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings">
+
+        <action
+            android:id="@+id/action_settingsFragment_to_katDataBrowseFragment"
+            app:destination="@id/katDataBrowseFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addKatFragment"
+        android:name="com.olayg.onlykats.view.AddFragment"
+        android:label="fragment_add_kat"
+        tools:layout="@layout/fragment_add">
+
+        <action
+            android:id="@+id/action_addKatFragment_to_katDataBrowseFragment"
+            app:destination="@id/katDataBrowseFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/katDataBrowseFragment"
+        android:name="com.olayg.onlykats.view.KatDataBrowseFragment"
+        android:label="fragment_kat_data"
+        tools:layout="@layout/fragment_kat_data">
+
+        <action
+            android:id="@+id/action_katDataBrowseFragment_to_addKatFragment"
+            app:destination="@id/addKatFragment" />
+
+        <action
+            android:id="@+id/action_katDataBrowseFragment_to_updateFragment"
+            app:destination="@id/updateFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/updateFragment"
+        android:name="com.olayg.onlykats.view.UpdateFragment"
+        android:label="fragment_update"
+        tools:layout="@layout/fragment_update">
+
+        <action
+            android:id="@+id/action_updateFragment_to_katDataBrowseFragment"
+            app:destination="@id/katDataBrowseFragment" />
+
+        <argument
+            android:name="currentKat"
+            app:argType="com.olayg.onlykats.model.room.KatData" />
+    </fragment>
+
+</navigation>
