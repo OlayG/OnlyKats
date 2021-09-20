@@ -19,7 +19,6 @@ import com.olayg.onlykats.databinding.FragmentSettingsBinding
 import com.olayg.onlykats.model.request.Queries
 import com.olayg.onlykats.util.EndPoint
 import com.olayg.onlykats.util.PreferencesKey
-import com.olayg.onlykats.util.SettingsManager
 import com.olayg.onlykats.viewmodel.KatViewModel
 
 
