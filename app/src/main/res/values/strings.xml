@@ -16,7 +16,10 @@
     <string name="social_need">Social Need</string>
     <string name="stranger_friendly">Stranger Friendly</string>
     <string name="grooming">Grooming</string>
-    <string name="hairlessness">Hairlessness</string>
     <string name="intelligence">Intelligence</string>
     <string name="shedding_level">Shedding Level</string>
+    <string name="name">Name</string>
+    <string name="origin">Origin</string>
+    <string name="hairless">Hairless</string>
+    <string name="shedding">Shedding</string>
 </resources>

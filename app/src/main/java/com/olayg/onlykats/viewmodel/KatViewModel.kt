@@ -12,9 +12,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.*
-
-// TODO: 9/10/21 Get the breedState from repo and load into the breedState livedata
-// TODO: 9/10/21 Once you the breedState from repo make sure you update isNextPage
 class KatViewModel : ViewModel() {
 
     private val _katState = MutableLiveData<ApiState<List<Kat>>>()
@@ -32,7 +29,6 @@ class KatViewModel : ViewModel() {
         addSource(_breedState) { value = Unit }
     }
 
-    var currentBreed : MutableLiveData<Breed> = MutableLiveData()
     var queries: Queries? = null
 
     private var isNextPage = false

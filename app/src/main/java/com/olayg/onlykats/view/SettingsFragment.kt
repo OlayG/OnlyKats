@@ -6,15 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
+import androidx.datastore.preferences.core.edit
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textview.MaterialTextView
 import com.olayg.onlykats.R
 import com.olayg.onlykats.databinding.FragmentSettingsBinding
 import com.olayg.onlykats.model.request.Queries
 import com.olayg.onlykats.util.EndPoint
+import com.olayg.onlykats.util.PreferenceKey
 import com.olayg.onlykats.viewmodel.KatViewModel
+
 
 /**
  * A simple [Fragment] subclass.
@@ -27,6 +31,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private lateinit var _binding: FragmentSettingsBinding
     private val binding get() = _binding!!
     private val katViewModel by activityViewModels<KatViewModel>()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,7 +58,18 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         katViewModel.queries?.let { sliderLimit.value = it.limit.toFloat() }
         sliderLimit.addOnChangeListener { _, _, _ -> toggleApply() }
         btnApply.setOnClickListener {
-            katViewModel.fetchData(getKatQueries())
+            val queries = getKatQueries()
+
+            viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+                it.context.dataStore.edit { settings ->
+                    queries.endPoint?.name?.let {
+                        settings[PreferenceKey.ENDPOINT] = it
+                    }
+                    settings[PreferenceKey.LIMIT] = queries.limit
+                }
+            }
+
+            katViewModel.fetchData(queries)
             findNavController().navigateUp()
         }
     }
@@ -107,3 +123,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         page = katViewModel.queries?.page
     )
 }
+
+
+

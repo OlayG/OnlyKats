@@ -20,15 +20,15 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="250dp"
             android:orientation="vertical">
 
             <!-- Media -->
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/siv_image"
-                android:layout_width="136dp"
-                android:layout_height="85dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:layout_gravity="center"
                 android:contentDescription="image"
                 android:scaleType="centerCrop"
@@ -63,17 +63,17 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:text="Name"
+                            android:text="@string/name"
                             android:textAppearance="?attr/textAppearanceHeadline6" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/tv_origin"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="start"
+                            android:layout_gravity="center"
                             android:layout_marginTop="8dp"
                             android:layout_weight="1"
-                            android:text="Origin"
+                            android:text="@string/origin"
                             android:textAppearance="?attr/textAppearanceBody2"
                             android:textColor="?android:attr/textColorSecondary" />
 
@@ -96,7 +96,6 @@
                             android:layout_gravity="center"
                             android:layout_marginEnd="8dp"
                             android:inputType="none"
-                            android:text="Url 1"
                             android:textColor="#1455B0"
                             android:textSize="12sp" />
 
@@ -106,7 +105,6 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:inputType="none"
-                            android:text="Url 2"
                             android:textColor="#1455B0"
                             android:textSize="12sp" />
 
@@ -116,7 +114,6 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:inputType="none"
-                            android:text="Url 3"
                             android:textColor="#1455B0"
                             android:textSize="12sp" />
 
@@ -146,6 +143,93 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="parent">
 
+            <TableRow
+                android:id="@+id/tr_thirteen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/pt_thirteen_shedding"
+                    android:layout_width="165dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="none"
+                    android:text="@string/shedding" />
+
+                <RatingBar
+                    android:id="@+id/ratingBar_thirteen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tr_twelve"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/pt_twelve_intelligence"
+                    android:layout_width="165dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="none"
+                    android:text="@string/intelligence" />
+
+                <RatingBar
+                    android:id="@+id/ratingBar_tweleve"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tr_eleven"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/pt_eleven_hairless"
+                    android:layout_width="165dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="none"
+                    android:text="@string/hairless" />
+
+                <RatingBar
+                    android:id="@+id/ratingBar_eleven"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tr_ten"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/pt_ten_grooming"
+                    android:layout_width="165dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="none"
+                    android:text="@string/grooming" />
+
+                <RatingBar
+                    android:id="@+id/ratingBar_ten"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true" />
+            </TableRow>
 
             <TableRow
                 android:id="@+id/tr_nine"

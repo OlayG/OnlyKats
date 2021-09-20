@@ -70,9 +70,6 @@ class DetailsFragment : Fragment(R.layout.fragment_detail ) {
         binding.tvDescription.text = description
         binding.tvOrigin.text = origin
 
-        Log.e("image", "$img")
-
-        val umg =img?.toUri()
         val pumg = Uri.parse(img)
 
         DownloadImageFromInternet(binding.sivImage).execute(img)
@@ -87,6 +84,10 @@ class DetailsFragment : Fragment(R.layout.fragment_detail ) {
         if (child != null) binding.ratingBarSeven.rating = child.toFloat()
         if (affection != null) binding.ratingBarEight.rating = affection.toFloat()
         if (adapt != null) binding.ratingBarNine.rating = adapt.toFloat()
+        if (groom != null) binding.ratingBarTen.rating = groom.toFloat()
+        if (hair != null) binding.ratingBarEleven.rating = hair.toFloat()
+        if (intel != null) binding.ratingBarTweleve.rating = intel.toFloat()
+        if (shed != null) binding.ratingBarThirteen.rating = shed.toFloat()
         binding.wikiUrl.text = wiki
         binding.wikiUrl.setOnClickListener {
             openSite.data = Uri.parse(wiki)

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.olayg.onlykats.databinding.ItemBreedBinding
 import com.olayg.onlykats.databinding.ItemKatBinding
 import com.olayg.onlykats.model.Breed
 import com.olayg.onlykats.util.loadBreedsWithGlide
@@ -21,10 +22,10 @@ import kotlinx.android.parcel.Parcelize
 // TODO: 9/11/21 update the clear method
 class BreedAdapter(
     private val breedList: MutableList<Breed> = mutableListOf(),
-    private val setCurrentBreed: (Breed) -> Unit
+
 ) : RecyclerView.Adapter<BreedAdapter.BreedViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        BreedViewHolder.getInstance(parent, setCurrentBreed)
+        BreedViewHolder.getInstance(parent)
 
     override fun onBindViewHolder(holder: BreedViewHolder, position: Int) {
         holder.loadBreed(breedList[position])
@@ -44,20 +45,20 @@ class BreedAdapter(
 
     fun clear() {
         val listSize = breedList.size
+        breedList.clear()
         notifyItemRangeRemoved(0, listSize)
     }
 
 
     class BreedViewHolder(
-        private val binding: ItemKatBinding,
-        private val setCurrentBreed: (Breed) -> Unit
+        private val binding: ItemBreedBinding
     ) :
         RecyclerView.ViewHolder(binding.root) {
         fun loadBreed(bred: Breed) = with(binding)
         {
-            ivKat.loadSingleImage(bred?.image?.url)
-            ivKat.setOnClickListener() {
-                setCurrentBreed.invoke(bred)
+            ivBreeds.loadSingleImage(bred?.image?.url)
+            breedNames.text = bred.name ?: "Unknown"
+            ivBreeds.setOnClickListener() {
                 it.findNavController()
                     .navigate(
                         BrowseFragmentDirections.actionDetailsFragment(Breed(bred.adaptability, bred.affectionLevel, bred.altNames, bred.cfaUrl, bred.childFriendly, bred.countryCode, bred.countryCodes, bred.description, bred.dogFriendly, bred.energyLevel, bred.experimental, bred.grooming, bred.hairless, bred.healthIssues, bred.hypoallergenic, bred.referenceImageId, bred.image, bred.indoor, bred.intelligence, bred.lap, bred.lifeSpan, bred.name, bred.natural, bred.origin, bred.rare, bred.referenceImageId, bred.rex, bred.sheddingLevel, bred.shortLegs, bred.socialNeeds, bred.strangerFriendly, bred.suppressedTail, bred.temperament, bred.cfaUrl, bred.vcaHospitalsUrl, bred.vetStreetUrl, bred.vocalisation, bred.weight, bred.wikipediaUrl)
@@ -68,10 +69,10 @@ class BreedAdapter(
 
 
         companion object {
-            fun getInstance(parent: ViewGroup, setCurrentBreed: (Breed) -> Unit): BreedViewHolder {
+            fun getInstance(parent: ViewGroup): BreedViewHolder {
                 val binding =
-                    ItemKatBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                return BreedViewHolder(binding, setCurrentBreed)
+                    ItemBreedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                return BreedViewHolder(binding)
             }
         }
     }

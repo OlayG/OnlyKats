@@ -17,6 +17,6 @@ interface KatService {
     ): Response<List<Kat>>
 
     @GET("v1/breeds")
-    suspend fun getBreeds(): Response<List<Breed>>
+    suspend fun getBreeds(@QueryMap options: Map<String, @JvmSuppressWildcards Any>): Response<List<Breed>>
 
 }
