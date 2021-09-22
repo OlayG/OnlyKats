@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="2dp"
+    android:background="#388E3C"
+    tools:context=".view.DetailsFragment">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/kard"
+        android:layout_width="361dp"
+        android:layout_height="246dp"
+        android:layout_margin="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Media -->
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/siv_image"
+                android:layout_width="136dp"
+                android:layout_height="85dp"
+                android:layout_gravity="center"
+                android:contentDescription="image"
+                android:scaleType="centerCrop"
+                app:srcCompat="@color/red_200" />
+
+
+            <!-- Title, secondary and supporting text -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="166dp"
+                android:orientation="vertical"
+                android:padding="4dp">
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="121dp"
+                    android:nestedScrollingEnabled="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingBottom="2dp">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:text="Name"
+                            android:textAppearance="?attr/textAppearanceHeadline6" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_origin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="1"
+                            android:text="Origin"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="?android:attr/textColorSecondary" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_description"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:layout_marginTop="16dp"
+                            android:layout_weight="2"
+                            android:text="Description"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="?android:attr/textColorSecondary" />
+
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/street_url"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="8dp"
+                            android:inputType="none"
+                            android:text="Url 1"
+                            android:textColor="#1455B0"
+                            android:textSize="12sp" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/vca_url"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:inputType="none"
+                            android:text="Url 2"
+                            android:textColor="#1455B0"
+                            android:textSize="12sp" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/wiki_url"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:inputType="none"
+                            android:text="Url 3"
+                            android:textColor="#1455B0"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+                </ScrollView>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <ScrollView
+        android:layout_width="433dp"
+        android:layout_height="455dp"
+        android:nestedScrollingEnabled="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideline3">
+
+        <TableLayout
+            android:layout_width="433dp"
+            android:layout_height="492dp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent">
+
+
+            <TableRow
+                android:id="@+id/tr_nine"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/pt_nine_adaptabilty"
+                    android:layout_width="8dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="none"
+                    android:text="@string/adaptabilty" />
+
+                <RatingBar
+                    android:id="@+id/ratingBar_nine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    android:numStars="5" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tr_eight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/pt_eight_affection_level"
+                    android:layout_width="165dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="none"
+                    android:text="@string/affection_level" />
+
+                <RatingBar
+                    android:id="@+id/ratingBar_eight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tr_seven"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/pt_seven_child_friendly"
+                    android:layout_width="165dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="none"
+                    android:text="@string/child_friendly" />
+
+                <RatingBar
+                    android:id="@+id/ratingBar_seven"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tr_six"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/pt_six_dog_friendly"
+                    android:layout_width="165dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="none"
+                    android:text="@string/dog_friendly" />
+
+                <RatingBar
+                    android:id="@+id/ratingBar_six"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tr_five"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/pt_five_energy_level"
+                    android:layout_width="110dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="none"
+                    android:text="@string/energy_level" />
+
+                <RatingBar
+                    android:id="@+id/ratingBar_five"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tr_four"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/pt_four_experimental"
+                    android:layout_width="165dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="none"
+                    android:text="@string/experimental" />
+
+                <RatingBar
+                    android:id="@+id/ratingBar_four"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tr_three"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/pt_three_rare"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="none"
+                    android:text="@string/rare" />
+
+                <RatingBar
+                    android:id="@+id/ratingBar_three"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tr_two"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/pt_two_social_need"
+                    android:layout_width="165dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="none"
+                    android:text="@string/social_need" />
+
+                <RatingBar
+                    android:id="@+id/ratingBar_two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tr_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/pt_one_stranger_friendly"
+                    android:layout_width="165dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="none"
+                    android:text="@string/stranger_friendly" />
+
+                <RatingBar
+                    android:id="@+id/ratingBar_one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true" />
+            </TableRow>
+
+
+        </TableLayout>
+
+    </ScrollView>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="353dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
