@@ -1,10 +1,12 @@
 package com.olayg.onlykats.model
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
-
+@Entity
 @Parcelize
 @JsonClass(generateAdapter = true)
 data class Breed(
@@ -32,7 +34,7 @@ data class Breed(
     @Json(name = "health_issues")
     val healthIssues: Int?,
     val hypoallergenic: Int?,
-    val id: String?,
+    @PrimaryKey val id: String,
     val image: Image?,
     val indoor: Int?,
     val intelligence: Int?,

@@ -1,18 +1,26 @@
 package com.olayg.onlykats.viewmodel
 
+import android.app.Application
+import android.content.Context
 import androidx.lifecycle.*
 import com.olayg.onlykats.model.Breed
+import com.olayg.onlykats.model.Category
 import com.olayg.onlykats.model.Kat
 import com.olayg.onlykats.model.request.Queries
 import com.olayg.onlykats.repo.KatRepo
 import com.olayg.onlykats.util.ApiState
 import com.olayg.onlykats.util.EndPoint
 import com.olayg.onlykats.util.PageAction
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.*
-class KatViewModel : ViewModel() {
+import javax.inject.Inject
+@HiltViewModel
+class KatViewModel @Inject constructor(
+    private val repo: KatRepo
+) : ViewModel() {
 
     private val _katState = MutableLiveData<ApiState<List<Kat>>>()
     val katState: LiveData<ApiState<List<Kat>>>
@@ -21,6 +29,7 @@ class KatViewModel : ViewModel() {
     private val _breedState = MutableLiveData<ApiState<List<Breed>>>()
     val breedState: LiveData<ApiState<List<Breed>>>
         get() = _breedState
+
 
     // This lets us combine multiple livedata's into 1, I am using this to update settings anytime
     // the states change
@@ -57,21 +66,25 @@ class KatViewModel : ViewModel() {
 
     private fun getImages(queries: Queries) {
         viewModelScope.launch(Dispatchers.IO) {
-            KatRepo.getKatState(queries).collect { katState ->
-                isNextPage = katState !is ApiState.EndOfPage
-                _katState.postValue(katState)
+            repo.getKatState(queries).collect { katList ->
+                val state = if (katList.isNullOrEmpty())ApiState.Failure("Did not load")
+                else ApiState.Success(katList)
+//                isNextPage = katState !is ApiState.EndOfPage
+                _katState.postValue(state)
             }
         }
     }
 
     private fun getBreeds(queries: Queries) {
         viewModelScope.launch(Dispatchers.IO) {
-            KatRepo.getBreedState(queries).collect { breedState ->
-                isNextPage = breedState !is ApiState.EndOfPage
-                _breedState.postValue(breedState)
+            repo.getBreedState(queries).collect { breedList ->
+                val state = if (breedList.isNullOrEmpty())ApiState.Failure("Did not load")
+                else ApiState.Success(breedList)
+                _breedState.postValue(state)
             }
         }
     }
+
 
     private fun PageAction.update(page: Int) = when (this) {
         PageAction.FIRST -> 0

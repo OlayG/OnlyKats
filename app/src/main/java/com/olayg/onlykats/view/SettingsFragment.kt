@@ -15,17 +15,17 @@ import com.google.android.material.textview.MaterialTextView
 import com.olayg.onlykats.R
 import com.olayg.onlykats.databinding.FragmentSettingsBinding
 import com.olayg.onlykats.model.request.Queries
+import com.olayg.onlykats.repo.local.utils.dataStore
 import com.olayg.onlykats.util.EndPoint
 import com.olayg.onlykats.util.PreferenceKey
 import com.olayg.onlykats.viewmodel.KatViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 
 /**
  * A simple [Fragment] subclass.
  */
-// TODO: 9/11/21 Navigate back on apply click
-// TODO: 9/10/21 Use toggle method to show or hide unique views for Images (Try using Group in ConstraintLayout)
-// TODO: 9/10/21 Use toggle method to show or hide unique views for Breeds
+@AndroidEntryPoint
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private lateinit var _binding: FragmentSettingsBinding
@@ -44,8 +44,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSettingsBinding.bind(view)
-        initObservers()
         initView()
+        initObservers()
     }
 
     override fun onResume() {
@@ -90,9 +90,16 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 EndPoint.IMAGES -> {
                     toggleImagesView(true)
                     toggleBreedsView(false)
+                    toggleCategoryView(false)
                 }
                 EndPoint.BREEDS -> {
                     toggleBreedsView(true)
+                    toggleImagesView(false)
+                    toggleCategoryView(false)
+                }
+                EndPoint.CATEGORIES -> {
+                    toggleCategoryView(true)
+                    toggleBreedsView(false)
                     toggleImagesView(false)
                 }
             }
@@ -103,6 +110,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private fun toggleImagesView(show: Boolean) = with(binding) {}
 
     private fun toggleBreedsView(show: Boolean) = with(binding) {}
+
+    private fun toggleCategoryView(show: Boolean) = with(binding) {}
 
     private fun toggleApply() {
         binding.btnApply.isVisible = validateQuery()

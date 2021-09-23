@@ -18,8 +18,6 @@ import kotlinx.android.parcel.Parcelize
  * RecyclerView - Leverages the ViewHolder Pattern to optimizing scrolling and memory consumption
  * ListAdapter - Same as Recyclerview but we don't have to use the notify methods to update the adapter
  */
-// TODO: 9/11/21 Setup breed adapter to display list of breeds
-// TODO: 9/11/21 update the clear method
 class BreedAdapter(
     private val breedList: MutableList<Breed> = mutableListOf(),
 
@@ -35,7 +33,6 @@ class BreedAdapter(
     override fun getItemCount() = breedList.size
 
     fun updateList(breeds: List<Breed>) {
-        Log.e("updateList", "Inside Breeds updatlist ")
         if (breeds.lastOrNull() != breedList.lastOrNull()) {
             val positionStart = breedList.size
             breedList.addAll(breeds)
@@ -61,7 +58,10 @@ class BreedAdapter(
             ivBreeds.setOnClickListener() {
                 it.findNavController()
                     .navigate(
-                        BrowseFragmentDirections.actionDetailsFragment(Breed(bred.adaptability, bred.affectionLevel, bred.altNames, bred.cfaUrl, bred.childFriendly, bred.countryCode, bred.countryCodes, bred.description, bred.dogFriendly, bred.energyLevel, bred.experimental, bred.grooming, bred.hairless, bred.healthIssues, bred.hypoallergenic, bred.referenceImageId, bred.image, bred.indoor, bred.intelligence, bred.lap, bred.lifeSpan, bred.name, bred.natural, bred.origin, bred.rare, bred.referenceImageId, bred.rex, bred.sheddingLevel, bred.shortLegs, bred.socialNeeds, bred.strangerFriendly, bred.suppressedTail, bred.temperament, bred.cfaUrl, bred.vcaHospitalsUrl, bred.vetStreetUrl, bred.vocalisation, bred.weight, bred.wikipediaUrl)
+                        BrowseFragmentDirections.actionDetailsFragment(bred.referenceImageId?.let { it1 ->
+                            Breed(bred.adaptability, bred.affectionLevel, bred.altNames, bred.cfaUrl, bred.childFriendly, bred.countryCode, bred.countryCodes, bred.description, bred.dogFriendly, bred.energyLevel, bred.experimental, bred.grooming, bred.hairless, bred.healthIssues, bred.hypoallergenic,
+                                it1, bred.image, bred.indoor, bred.intelligence, bred.lap, bred.lifeSpan, bred.name, bred.natural, bred.origin, bred.rare, bred.referenceImageId, bred.rex, bred.sheddingLevel, bred.shortLegs, bred.socialNeeds, bred.strangerFriendly, bred.suppressedTail, bred.temperament, bred.cfaUrl, bred.vcaHospitalsUrl, bred.vetStreetUrl, bred.vocalisation, bred.weight, bred.wikipediaUrl)
+                        }
                         )
                     )
             }

@@ -12,26 +12,28 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.olayg.onlykats.adapter.BreedAdapter
+import com.olayg.onlykats.adapter.CategoryAdapter
 import com.olayg.onlykats.adapter.KatAdapter
 import com.olayg.onlykats.databinding.FragmentBrowseBinding
 import com.olayg.onlykats.model.Breed
 import com.olayg.onlykats.model.Kat
-import com.olayg.onlykats.model.request.Queries
+import com.olayg.onlykats.repo.local.utils.UserPrefManager
 import com.olayg.onlykats.util.ApiState
 import com.olayg.onlykats.util.EndPoint
 import com.olayg.onlykats.util.PageAction
-import com.olayg.onlykats.util.PreferenceKey
 import com.olayg.onlykats.viewmodel.KatViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toList
+import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass.
  */
-
+@AndroidEntryPoint
 class BrowseFragment : Fragment() {
 
+    @Inject
+    lateinit var userPrefManager: UserPrefManager
     private var _binding: FragmentBrowseBinding? = null
     private val binding get() = _binding!!
     private val katViewModel by activityViewModels<KatViewModel>()
@@ -51,19 +53,14 @@ class BrowseFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (katViewModel.queries == null) viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-
-            view.context.dataStore.data
-                .map { preferences ->
-                    preferences[PreferenceKey.ENDPOINT]?.let {
-                        Queries(EndPoint.valueOf(it), preferences[PreferenceKey.LIMIT] ?: 10,0 )
-                    }
-                }.collect{
-                    if (it == null) findNavController().navigate(BrowseFragmentDirections.actionSettingsFragment())
-                    else katViewModel.fetchData(it)
-                }
+            userPrefManager.queries.collect {
+                if (it == null) findNavController().navigate(
+                    BrowseFragmentDirections.actionSettingsFragment()
+                )
+                else katViewModel.fetchData(it)
+            }
         }
         setupObservers()
-        setupObservers2()
         initViews()
     }
 
@@ -77,35 +74,33 @@ class BrowseFragment : Fragment() {
         rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (!recyclerView.canScrollVertically(-1) && dy < 0) {
-                    Log.d(TAG, "TOP OF LIST")
+
                 } else if (!recyclerView.canScrollVertically(1) && dy > 0) {
-                    Log.d(TAG, "BOTTOM OF LIST")
+
                     katViewModel.fetchData(PageAction.NEXT)
                 }
             }
         })
     }
 
-
     private fun setupObservers() = with(katViewModel) {
-        katState.observe(viewLifecycleOwner) { state ->
-            binding.pbLoading.isVisible = state is ApiState.Loading
-            if (state is ApiState.Success) loadKats(state.data)
-            if (state is ApiState.Failure) handleFailure(state.errorMsg)
-        }
-    }
-
-    private fun setupObservers2() = with(katViewModel)
-    {
-        breedState.observe(viewLifecycleOwner) { state ->
-            binding.pbLoading.isVisible = state is ApiState.Loading
-            if (state is ApiState.Success) loadBreeds(state.data)
-            if (state is ApiState.Failure) handleFailure(state.errorMsg)
+        when (queries?.endPoint) {
+            EndPoint.IMAGES ->
+                katState.observe(viewLifecycleOwner) { state ->
+                    binding.pbLoading.isVisible = state is ApiState.Loading
+                    if (state is ApiState.Success) loadKats(state.data)
+                    if (state is ApiState.Failure) handleFailure(state.errorMsg)
+                }
+            else ->
+                breedState.observe(viewLifecycleOwner) { state ->
+                    binding.pbLoading.isVisible = state is ApiState.Loading
+                    if (state is ApiState.Success) loadBreeds(state.data)
+                    if (state is ApiState.Failure) handleFailure(state.errorMsg)
+                }
         }
     }
 
     private fun loadKats(kats: List<Kat>) = with(binding.rvList) {
-        Log.d(TAG, "ApiState.Success: $kats")
         if (adapter == null || adapter == breedAdapter) adapter = katAdapter
         if (katViewModel.currentPagAction == PageAction.FIRST) katAdapter.clear()
         breedAdapter.clear()

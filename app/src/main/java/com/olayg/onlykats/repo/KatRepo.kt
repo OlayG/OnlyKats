@@ -1,31 +1,44 @@
-package com.olayg.onlykats.repo
+ package com.olayg.onlykats.repo
 
+import com.olayg.onlykats.model.Breed
+import com.olayg.onlykats.model.Category
+import com.olayg.onlykats.model.Kat
 import com.olayg.onlykats.model.request.Queries
-import com.olayg.onlykats.repo.remote.RetrofitInstance
+import com.olayg.onlykats.repo.local.dao.BreedDao
+import com.olayg.onlykats.repo.local.dao.KatDao
+import com.olayg.onlykats.repo.remote.KatService
 import com.olayg.onlykats.util.ApiState
-import kotlinx.coroutines.flow.flow
+import dagger.hilt.android.scopes.ViewModelScoped
+import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
+import javax.inject.Inject
+@ViewModelScoped
+ class KatRepo @Inject constructor(
+    private val katService: KatService,
+    private val katDao: KatDao,
+    private val breedDao: BreedDao,
+ ) {
 
-object KatRepo {
-    private const val TAG = "KAT-REPO"
-    private val katService by lazy { RetrofitInstance.katService }
+    suspend fun getKatState(queries: Queries) : Flow<List<Kat>> {
 
-    fun getKatState(queries: Queries) = flow {
-        emit(ApiState.Loading)
-        val state = if (queries.endPoint != null) {
-            katService.getKatImages(queries.asQueryMap).getApiState()
-        } else ApiState.Failure("Endpoint is null")
-        emit(state)
+
+        val katFlow = katDao.getAll()
+        val katResponse = katService.getKatImages(queries.asQueryMap)
+        if (!katResponse.body().isNullOrEmpty())
+            katDao.insertAll(*katResponse.body()!!.toTypedArray())
+        return katFlow
     }
 
-    fun getBreedState(queries: Queries) = flow {
-        emit(ApiState.Loading)
-        kotlinx.coroutines.delay(500)
-        val state = if (queries.endPoint != null) {
-            katService.getBreeds(queries.asQueryMap).getApiState()
-        } else ApiState.Failure("Endpoint is null")
-        emit(state)
+
+    suspend fun getBreedState( queries: Queries) : Flow<List<Breed>> {
+
+        val breedFlow =  breedDao.getAll()
+        val breedResponse = katService.getBreeds(queries.asQueryMap)
+        if (!breedResponse.body().isNullOrEmpty())
+            breedDao.insertAll(*breedResponse.body()!!.toTypedArray())
+        return breedFlow
     }
+
 
     private val Queries.asQueryMap: Map<String, Any>
         get() = listOfNotNull(

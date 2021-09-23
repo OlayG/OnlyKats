@@ -9,6 +9,7 @@ import androidx.datastore.preferences.preferencesDataStore
 object PreferenceKey {
     val ENDPOINT = stringPreferencesKey("name")
     val LIMIT = intPreferencesKey("slide")
+    val PAGE = intPreferencesKey("page")
 }
 //
 //class PrefSelection(private  val context: Context) {
